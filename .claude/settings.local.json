@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for dir:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $dir ===\")",
+      "Read(//c/DRIVE_F/Master/YC/GauntletAI/HiringPartnerProject/cursor-skills-main/cursor-skills-main/$dir/**)",
+      "Bash(done)",
+      "Read(//c/DRIVE_F/Master/YC/GauntletAI/HiringPartnerProject/cursor-skills-main/cursor-skills-main/prd-generator/**)",
+      "Read(//c/DRIVE_F/Master/YC/GauntletAI/HiringPartnerProject/cursor-skills-main/cursor-skills-main/presearch/**)",
+      "WebSearch",
+      "WebFetch(domain:blog.carvana.com)",
+      "WebFetch(domain:www.businesswire.com)"
+    ]
+  }
+}

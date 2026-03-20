@@ -1,0 +1,137 @@
+<%= render "progress", application: @application %>
+
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <%= render "vehicle_card", vehicle: @vehicle %>
+
+  <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-1">Customize your financing</h2>
+        <p class="text-sm text-gray-500 mb-6">Adjust the terms below to find a monthly payment that works for you.</p>
+
+        <!-- Loan Visualizer -->
+        <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-5 text-white mb-6">
+          <p class="text-blue-200 text-sm mb-1">Estimated monthly payment</p>
+          <p class="text-4xl font-bold" id="monthly-payment">$487</p>
+          <p class="text-blue-300 text-xs mt-1">Based on 6.9% APR · <span id="loan-term-display">60</span> months</p>
+
+          <div class="mt-4">
+            <div class="flex justify-between text-xs text-blue-200 mb-1">
+              <span>Loan Term</span>
+              <span id="term-value">60 months</span>
+            </div>
+            <input type="range" id="loan-term-slider" min="24" max="84" step="12" value="60"
+                   class="w-full accent-white cursor-pointer">
+            <div class="flex justify-between text-xs text-blue-300 mt-1">
+              <span>24 mo</span><span>84 mo</span>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="flex justify-between text-xs text-blue-200 mb-1">
+              <span>Down Payment</span>
+              <span>$<span id="down-payment-display">2,000</span></span>
+            </div>
+            <input type="range" id="down-payment-slider" min="0" max="10000" step="500" value="2000"
+                   class="w-full accent-white cursor-pointer">
+            <div class="flex justify-between text-xs text-blue-300 mt-1">
+              <span>$0</span><span>$10,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jargon explainers -->
+        <div class="space-y-3 mb-6">
+          <details class="border border-gray-200 rounded-xl">
+            <summary class="px-4 py-3 text-sm font-medium text-gray-700 cursor-pointer flex justify-between items-center">
+              What is APR? <span class="text-gray-400">▼</span>
+            </summary>
+            <p class="px-4 pb-3 text-sm text-gray-600">APR (Annual Percentage Rate) is the yearly cost of your loan including interest and fees. A lower APR means you pay less over time. Your rate is based on your credit score and loan term.</p>
+          </details>
+          <details class="border border-gray-200 rounded-xl">
+            <summary class="px-4 py-3 text-sm font-medium text-gray-700 cursor-pointer flex justify-between items-center">
+              What is GAP insurance? <span class="text-gray-400">▼</span>
+            </summary>
+            <p class="px-4 pb-3 text-sm text-gray-600">If your car is totaled, GAP insurance covers the difference between what your insurance pays out and what you still owe on the loan. Useful if you put less than 20% down.</p>
+          </details>
+        </div>
+
+        <%= form_with url: update_step_onboarding_application_path(@application, step: 2), method: :patch, class: "space-y-4" do |f| %>
+          <%= f.hidden_field :loan_term, id: "loan-term-input", value: @application.data["loan_term"] || 60 %>
+          <%= f.hidden_field :down_payment, id: "down-payment-input", value: @application.data["down_payment"] || 2000 %>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              SSN Last 4 Digits
+              <span class="text-gray-400 font-normal text-xs ml-1">— for formal credit application</span>
+            </label>
+            <%= f.text_field :ssn_last4, placeholder: "1234", maxlength: 4,
+                class: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500",
+                value: @application.data["ssn_last4"] %>
+            <p class="text-xs text-gray-400 mt-1">🔒 Encrypted and never stored in plain text</p>
+          </div>
+
+          <%= f.submit "Continue to Documents →",
+              class: "w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="lg:col-span-1">
+      <div id="chatbot-widget" class="bg-white rounded-2xl border border-gray-200 overflow-hidden"
+           data-application-id="<%= @application.id %>" data-step="2">
+        <div class="bg-blue-600 px-4 py-3 flex items-center gap-3">
+          <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">AI</div>
+          <p class="text-white font-medium text-sm">Carvana Assistant</p>
+        </div>
+        <div id="chat-messages" class="h-64 overflow-y-auto p-4 space-y-3">
+          <div class="flex gap-2">
+            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5">AI</div>
+            <div class="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-gray-700 max-w-xs">
+              Great work on step 1! Now let's set up your financing. Use the sliders to find a payment you're comfortable with. 💰
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-200 p-3">
+          <div class="flex gap-2">
+            <input type="text" id="chat-input" placeholder="Ask anything..."
+                   class="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
+            <button id="chat-send" class="bg-blue-600 text-white px-3 py-2 rounded-xl text-sm hover:bg-blue-700">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const vehiclePrice = <%= @vehicle.price %>;
+  const apr = 0.069;
+
+  function calcPayment(term, down) {
+    const principal = vehiclePrice - down;
+    const monthlyRate = apr / 12;
+    const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+    return Math.round(payment);
+  }
+
+  function formatNumber(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function updateDisplay() {
+    const term = parseInt(document.getElementById("loan-term-slider").value);
+    const down = parseInt(document.getElementById("down-payment-slider").value);
+    const payment = calcPayment(term, down);
+    document.getElementById("monthly-payment").textContent = "$" + formatNumber(payment);
+    document.getElementById("loan-term-display").textContent = term;
+    document.getElementById("term-value").textContent = term + " months";
+    document.getElementById("down-payment-display").textContent = formatNumber(down);
+    document.getElementById("loan-term-input").value = term;
+    document.getElementById("down-payment-input").value = down;
+  }
+
+  document.getElementById("loan-term-slider").addEventListener("input", updateDisplay);
+  document.getElementById("down-payment-slider").addEventListener("input", updateDisplay);
+  updateDisplay();
+</script>

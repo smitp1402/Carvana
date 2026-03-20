@@ -1,0 +1,37 @@
+<div class="max-w-2xl mx-auto px-4 py-16 text-center">
+  <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">🎊</div>
+  <h1 class="text-3xl font-bold text-gray-900 mb-3">Application Submitted!</h1>
+  <p class="text-gray-600 mb-2">Your application for the <strong><%= @application.vehicle.display_name %></strong> has been received.</p>
+  <p class="text-gray-500 text-sm mb-8">You'll receive a decision within 24 hours. Check your email for updates.</p>
+
+  <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-8 text-left">
+    <h3 class="font-semibold text-gray-900 mb-4">What happens next?</h3>
+    <div class="space-y-4">
+      <div class="flex gap-3">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm font-bold text-blue-600 flex-shrink-0">1</div>
+        <div>
+          <p class="font-medium text-sm text-gray-900">Credit Review</p>
+          <p class="text-sm text-gray-500">Our team reviews your application — usually within a few hours</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm font-bold text-blue-600 flex-shrink-0">2</div>
+        <div>
+          <p class="font-medium text-sm text-gray-900">Loan Offer</p>
+          <p class="text-sm text-gray-500">We'll email your approved loan terms for e-signature</p>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-sm font-bold text-green-600 flex-shrink-0">3</div>
+        <div>
+          <p class="font-medium text-sm text-gray-900">Delivery Scheduled</p>
+          <p class="text-sm text-gray-500">Pick a delivery date and we'll bring the car to your door</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex gap-4 justify-center">
+    <%= link_to "Browse More Cars", root_path, class: "border border-gray-300 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-50" %>
+  </div>
+</div>

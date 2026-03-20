@@ -1,0 +1,77 @@
+<!-- Hero -->
+<div class="bg-gradient-to-br from-blue-700 to-blue-900 text-white py-16 px-4">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-4xl sm:text-5xl font-bold mb-4">Buy Your Next Car,<br>Guided by AI</h1>
+    <p class="text-blue-100 text-lg mb-8">No dealership. No stress. Our AI assistant walks you through every step — from financing to keys in hand.</p>
+    <div class="flex flex-wrap justify-center gap-6 text-sm text-blue-200">
+      <span>✓ AI-guided financing</span>
+      <span>✓ Instant document scan</span>
+      <span>✓ No credit impact to browse</span>
+    </div>
+  </div>
+</div>
+
+<!-- Inventory -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="flex items-center justify-between mb-8">
+    <h2 class="text-2xl font-bold text-gray-900">Available Vehicles</h2>
+    <span class="text-sm text-gray-500"><%= @vehicles.count %> vehicles</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @vehicles.each do |vehicle| %>
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
+          <div class="text-center">
+            <div class="text-5xl mb-2">🚗</div>
+            <span class="text-gray-500 text-sm"><%= vehicle.color %></span>
+          </div>
+          <% if vehicle.featured? %>
+            <span class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium">Featured</span>
+          <% end %>
+        </div>
+
+        <div class="p-5">
+          <h3 class="font-bold text-gray-900 text-lg mb-1"><%= vehicle.display_name %></h3>
+          <p class="text-2xl font-bold text-blue-600 mb-1"><%= vehicle.formatted_price %></p>
+          <p class="text-sm text-gray-500 mb-3"><%= vehicle.formatted_mileage %> · Stock #<%= vehicle.stock_no %></p>
+          <p class="text-sm text-gray-600 mb-5 line-clamp-2"><%= vehicle.description %></p>
+
+          <div class="flex gap-2">
+            <%= link_to "View Details", vehicle_path(vehicle), class: "flex-1 text-center border border-gray-300 text-gray-700 py-2 rounded-lg text-sm hover:bg-gray-50" %>
+            <% if user_signed_in? %>
+              <%= button_to "Start Purchase", onboarding_applications_path(vehicle_id: vehicle.id), method: :post,
+                  class: "flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700 font-medium cursor-pointer" %>
+            <% else %>
+              <%= link_to "Start Purchase", new_user_registration_path, class: "flex-1 text-center bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700 font-medium" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- How it works -->
+<div class="bg-white border-t border-gray-100 py-16 px-4">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-2xl font-bold text-gray-900 mb-10">How AI Onboarding Works</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div>
+        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">🤖</div>
+        <h3 class="font-semibold text-gray-900 mb-2">AI Guides You</h3>
+        <p class="text-sm text-gray-600">Our assistant explains every step, answers your questions, and helps fill forms — not for you, with you.</p>
+      </div>
+      <div>
+        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">📷</div>
+        <h3 class="font-semibold text-gray-900 mb-2">Scan Documents</h3>
+        <p class="text-sm text-gray-600">Point your camera at your license or pay stub. We extract the info automatically — no manual typing.</p>
+      </div>
+      <div>
+        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">🔑</div>
+        <h3 class="font-semibold text-gray-900 mb-2">Get Your Keys</h3>
+        <p class="text-sm text-gray-600">Complete in under 30 minutes. We deliver to your door — no dealership visit ever required.</p>
+      </div>
+    </div>
+  </div>
+</div>
