@@ -11,6 +11,11 @@ class ChatMessagesController < ApplicationController
       return
     end
 
+    if user_message.length > 2000
+      render json: { error: "Message too long (max 2000 characters)" }, status: :unprocessable_entity
+      return
+    end
+
     @application.chat_messages.create!(
       role: "user",
       content: user_message,
@@ -28,6 +33,8 @@ class ChatMessagesController < ApplicationController
 
   def set_application
     @application = current_user.onboarding_applications.find(params[:application_id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Application not found" }, status: :not_found
   end
 
   def sync_response(user_message)
@@ -72,6 +79,13 @@ class ChatMessagesController < ApplicationController
       response.stream.write("data: #{{ token: fallback_message, done: true }.to_json}\n\n")
     rescue ActionController::Live::ClientDisconnected
       Rails.logger.info("Client disconnected during stream")
+      if full_text.present?
+        @application.chat_messages.create!(
+          role: "assistant",
+          content: full_text,
+          step_context: params[:step].to_s
+        )
+      end
     ensure
       response.stream.close
     end

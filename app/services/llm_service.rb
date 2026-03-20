@@ -29,7 +29,17 @@ class LlmService
       .last(20)
       .map { |msg| { role: msg.role, content: msg.content } }
 
-    history + [{ role: "user", content: user_message }]
+    # Anthropic API requires strict user/assistant alternation starting with user
+    history = history.drop_while { |m| m[:role] == "assistant" }
+
+    # Remove consecutive same-role messages
+    deduped = []
+    history.each do |msg|
+      next if deduped.last && deduped.last[:role] == msg[:role]
+      deduped << msg
+    end
+
+    deduped + [{ role: "user", content: user_message }]
   end
 
   def send_request(messages)
