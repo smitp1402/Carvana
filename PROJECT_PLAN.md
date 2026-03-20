@@ -530,11 +530,11 @@ carvana-ai-onboarding/
 **Goal:** Loan visualizer, confidence prompts, and purchase anxiety reduction throughout the flow
 
 **Deliverables:**
-- [ ] Loan visualizer TypeScript component (slider: term, down payment → monthly payment)
-- [ ] Confidence prompt system — contextual messages at Step 2 (pre-qual), Step 3 (financing), Step 5 (sign)
-- [ ] Drop-off re-engagement — detect 3-minute inactivity, show chatbot prompt
-- [ ] Session persistence — user can close browser and resume from exact step
-- [ ] "You're almost there" milestone messages
+- [x] Loan visualizer TypeScript component (slider: term, down payment → monthly payment)
+- [x] Confidence prompt system — contextual messages at Step 2 (pre-qual), Step 3 (financing), Step 5 (sign)
+- [x] Drop-off re-engagement — detect 3-minute inactivity, show chatbot prompt
+- [x] Session persistence — user can close browser and resume from exact step
+- [x] "You're almost there" milestone messages
 
 **Key Tasks:**
 1. Build `app/javascript/controllers/loan_visualizer_controller.ts`:

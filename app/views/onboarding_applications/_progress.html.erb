@@ -30,6 +30,15 @@
     </div>
     <div class="mt-3 text-center">
       <span class="text-xs text-gray-500">Step <%= application.current_step %> of 5 · <%= application.progress_percentage %>% complete</span>
+      <% milestone = case application.current_step
+           when 2 then "Pre-qualification done — you're on track!"
+           when 3 then "Financing locked in — almost there!"
+           when 4 then "Documents uploaded — just one more step!"
+           when 5 then "All done — congratulations!"
+         end %>
+      <% if milestone %>
+        <p class="text-xs text-green-600 font-medium mt-1"><%= milestone %></p>
+      <% end %>
     </div>
   </div>
 </div>

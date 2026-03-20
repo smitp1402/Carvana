@@ -39,3 +39,15 @@
   - Auto-populates application_data with extracted fields after successful OCR
   - Checklist dynamically updates with green checkmarks as documents are verified
   - Specific error messages for wrong format, too small, too large, extraction failures
+
+## Phase 4: Emotional Support Layer — 2026-03-20
+- **Status:** Complete
+- **Deliverables:** 5/5 complete
+- **Deviations:**
+  - Loan visualizer was already built in Phase 1 step2 view — no changes needed (minor)
+  - Session persistence was already functional via OnboardingApplication#current_step + show action redirect (minor — no new code needed)
+- **Notes:**
+  - Added confidence prompts: step1 (soft credit check info), step2 ("You can adjust these anytime"), step4 ("You're making a great choice" + return policy)
+  - Added milestone messages in progress bar: "Pre-qualification done", "Financing locked in", "Documents uploaded", "All done"
+  - Added 3-minute inactivity re-engagement in chatbot widget — shows "Still thinking?" prompt
+  - Inactivity timer resets on mouse/keyboard/scroll/touch events

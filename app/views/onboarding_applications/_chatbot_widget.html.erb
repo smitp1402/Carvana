@@ -227,5 +227,26 @@
 
   // Scroll to bottom on load
   scrollToBottom();
+
+  // Inactivity re-engagement (3 minutes)
+  let inactivityTimer = null;
+  let reEngaged = false;
+
+  function resetInactivityTimer() {
+    if (reEngaged) return;
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(function() {
+      if (!reEngaged && !sending) {
+        reEngaged = true;
+        appendMessage('assistant', "Still thinking? I can help explain anything on this page. Just type your question below!");
+      }
+    }, 180000); // 3 minutes
+  }
+
+  document.addEventListener('mousemove', resetInactivityTimer);
+  document.addEventListener('keydown', resetInactivityTimer);
+  document.addEventListener('scroll', resetInactivityTimer);
+  document.addEventListener('touchstart', resetInactivityTimer);
+  resetInactivityTimer();
 })();
 </script>
