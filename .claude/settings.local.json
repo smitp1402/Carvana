@@ -10,7 +10,11 @@
       "Read(//c/DRIVE_F/Master/YC/GauntletAI/HiringPartnerProject/cursor-skills-main/cursor-skills-main/presearch/**)",
       "WebSearch",
       "WebFetch(domain:blog.carvana.com)",
-      "WebFetch(domain:www.businesswire.com)"
+      "WebFetch(domain:www.businesswire.com)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npx esbuild:*)",
+      "Bash(curl:*)"
     ]
   }
 }

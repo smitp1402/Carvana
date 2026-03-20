@@ -23,4 +23,7 @@ Rails.application.routes.draw do
   resources :chat_messages, only: [ :create ]
 
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # Dev-only requirements dashboard
+  get "dev", to: "dev_dashboard#index", as: :dev_dashboard if Rails.env.development? || Rails.env.test?
 end

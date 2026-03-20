@@ -7,37 +7,41 @@
     { num: 5, label: "Done" }
   ]
 %>
-<div class="bg-white border-b border-gray-200 px-4 py-4">
-  <div class="max-w-3xl mx-auto">
+<div class="border-b border-neutral-100 bg-white px-5 py-4">
+  <div class="max-w-xl mx-auto">
     <div class="flex items-center justify-between">
       <% steps.each_with_index do |s, i| %>
         <% is_done = application.current_step > s[:num] %>
         <% is_current = application.current_step == s[:num] %>
         <div class="flex flex-col items-center">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold
-            <%= is_done ? 'bg-green-500 text-white' : is_current ? 'bg-blue-600 text-white ring-4 ring-blue-100' : 'bg-gray-100 text-gray-400' %>">
-            <% if is_done %>✓<% else %><%= s[:num] %><% end %>
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all
+            <%= is_done ? 'bg-neutral-900 text-white' : is_current ? 'bg-neutral-900 text-white ring-[3px] ring-neutral-200' : 'bg-neutral-100 text-neutral-400' %>">
+            <% if is_done %>
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            <% else %>
+              <%= s[:num] %>
+            <% end %>
           </div>
-          <span class="text-xs mt-1 hidden sm:block
-            <%= is_current ? 'text-blue-600 font-medium' : is_done ? 'text-green-600' : 'text-gray-400' %>">
+          <span class="text-[10px] mt-1.5 hidden sm:block font-medium
+            <%= is_current ? 'text-neutral-900' : is_done ? 'text-neutral-500' : 'text-neutral-300' %>">
             <%= s[:label] %>
           </span>
         </div>
         <% unless i == steps.length - 1 %>
-          <div class="flex-1 h-0.5 mx-2 <%= application.current_step > s[:num] ? 'bg-green-400' : 'bg-gray-200' %>"></div>
+          <div class="flex-1 h-px mx-3 <%= application.current_step > s[:num] ? 'bg-neutral-900' : 'bg-neutral-200' %>"></div>
         <% end %>
       <% end %>
     </div>
-    <div class="mt-3 text-center">
-      <span class="text-xs text-gray-500">Step <%= application.current_step %> of 5 · <%= application.progress_percentage %>% complete</span>
-      <% milestone = case application.current_step
-           when 2 then "Pre-qualification done — you're on track!"
-           when 3 then "Financing locked in — almost there!"
-           when 4 then "Documents uploaded — just one more step!"
-           when 5 then "All done — congratulations!"
-         end %>
+    <% milestone = case application.current_step
+         when 2 then "Pre-qualification complete"
+         when 3 then "Financing locked in"
+         when 4 then "Documents uploaded"
+         when 5 then "All done!"
+       end %>
+    <div class="text-center mt-3">
+      <span class="text-[11px] text-neutral-400">Step <%= application.current_step %> of 5</span>
       <% if milestone %>
-        <p class="text-xs text-green-600 font-medium mt-1"><%= milestone %></p>
+        <span class="text-[11px] text-emerald-600 font-medium ml-2">&middot; <%= milestone %></span>
       <% end %>
     </div>
   </div>

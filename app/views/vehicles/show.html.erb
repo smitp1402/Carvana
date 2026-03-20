@@ -1,2 +1,38 @@
-<h1>Vehicles#show</h1>
-<p>Find me in app/views/vehicles/show.html.erb</p>
+<div class="max-w-6xl mx-auto px-5 sm:px-8 py-12">
+  <div class="mb-6">
+    <%= link_to "&larr; Back to inventory".html_safe, vehicles_path, class: "text-sm text-neutral-400 hover:text-neutral-900 transition-colors" %>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+    <!-- Image -->
+    <div class="card overflow-hidden">
+      <div class="h-72 bg-gradient-to-br from-neutral-50 to-neutral-100 flex items-center justify-center">
+        <svg class="w-24 h-24 text-neutral-200" fill="none" viewBox="0 0 24 24" stroke-width="0.75" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.637m-12.75 0h12.75M5.625 5.25h12.75l1.875 5.625H3.75L5.625 5.25z" /></svg>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div>
+      <% if @vehicle.featured? %>
+        <span class="badge inline-flex items-center gap-1.5 bg-neutral-900 text-white px-2.5 py-1 rounded-lg mb-3">Featured</span>
+      <% end %>
+      <h1 class="text-3xl font-bold tracking-tight mb-2"><%= @vehicle.display_name %></h1>
+      <p class="text-3xl font-bold tracking-tight mb-4"><%= @vehicle.formatted_price %></p>
+
+      <div class="flex flex-wrap gap-3 mb-6">
+        <span class="badge bg-neutral-100 text-neutral-600 px-3 py-1.5 rounded-lg"><%= @vehicle.formatted_mileage %></span>
+        <span class="badge bg-neutral-100 text-neutral-600 px-3 py-1.5 rounded-lg"><%= @vehicle.color %></span>
+        <span class="badge bg-neutral-100 text-neutral-600 px-3 py-1.5 rounded-lg">#<%= @vehicle.stock_no %></span>
+      </div>
+
+      <p class="text-neutral-500 leading-relaxed mb-8"><%= @vehicle.description %></p>
+
+      <% if user_signed_in? %>
+        <%= button_to "Start Purchase", onboarding_applications_path(vehicle_id: @vehicle.id), method: :post,
+            class: "btn-primary px-8 py-3 rounded-xl text-sm font-semibold cursor-pointer" %>
+      <% else %>
+        <%= link_to "Sign up to purchase", new_user_registration_path, class: "btn-primary inline-block px-8 py-3 rounded-xl text-sm font-semibold" %>
+      <% end %>
+    </div>
+  </div>
+</div>

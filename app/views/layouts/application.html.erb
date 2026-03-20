@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full bg-gray-50">
+<html class="h-full">
   <head>
     <title><%= content_for(:title) || "Carvana AI Onboarding" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -7,27 +7,47 @@
     <%= csp_meta_tag %>
     <%= yield :head %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <style>
+      * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+      body { background: #fafafa; }
+      .glass-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+      .gradient-text { background: linear-gradient(135deg, #0066FF 0%, #6366f1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+      .btn-primary { background: #0f0f0f; color: white; transition: all 0.15s ease; }
+      .btn-primary:hover { background: #262626; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+      .btn-secondary { background: white; color: #0f0f0f; border: 1px solid #e5e5e5; transition: all 0.15s ease; }
+      .btn-secondary:hover { border-color: #0f0f0f; transform: translateY(-1px); }
+      .input-field { border: 1px solid #e5e5e5; transition: all 0.15s ease; outline: none; }
+      .input-field:focus { border-color: #0f0f0f; box-shadow: 0 0 0 3px rgba(15,15,15,0.06); }
+      .card { background: white; border: 1px solid #f0f0f0; border-radius: 16px; transition: all 0.2s ease; }
+      .card:hover { border-color: #e0e0e0; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+      .badge { font-size: 11px; letter-spacing: 0.02em; font-weight: 500; }
+      .fade-in { animation: fadeIn 0.4s ease; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+      .slide-up { animation: slideUp 0.5s ease; }
+      @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
   </head>
 
-  <body class="h-full font-inter">
+  <body class="h-full antialiased text-neutral-900">
     <!-- Nav -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <%= link_to root_path, class: "flex items-center" do %>
-            <span class="text-2xl font-bold text-blue-600">carvana</span>
-            <span class="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-medium">AI</span>
+    <nav class="sticky top-0 z-50 border-b border-neutral-200/60 glass-card">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="flex justify-between items-center h-14">
+          <%= link_to root_path, class: "flex items-center gap-2" do %>
+            <span class="text-lg font-bold tracking-tight">carvana</span>
+            <span class="badge bg-neutral-900 text-white px-2 py-0.5 rounded-md">AI</span>
           <% end %>
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-3">
             <% if user_signed_in? %>
-              <span class="text-sm text-gray-600">Hi, <%= current_user.first_name.presence || current_user.email.split("@").first %></span>
-              <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-gray-500 hover:text-gray-700" %>
+              <span class="text-sm text-neutral-500"><%= current_user.first_name.presence || current_user.email.split("@").first %></span>
+              <div class="w-px h-4 bg-neutral-200"></div>
+              <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-neutral-400 hover:text-neutral-900 transition-colors" %>
             <% else %>
-              <%= link_to "Sign in", new_user_session_path, class: "text-sm text-gray-600 hover:text-blue-600" %>
-              <%= link_to "Get Started", new_user_registration_path, class: "bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700" %>
+              <%= link_to "Sign in", new_user_session_path, class: "text-sm text-neutral-500 hover:text-neutral-900 transition-colors" %>
+              <%= link_to "Get Started", new_user_registration_path, class: "btn-primary text-sm px-4 py-1.5 rounded-lg font-medium" %>
             <% end %>
           </div>
         </div>
@@ -36,10 +56,10 @@
 
     <!-- Flash messages -->
     <% if notice %>
-      <div class="bg-green-50 border-b border-green-200 px-4 py-3 text-sm text-green-800"><%= notice %></div>
+      <div class="bg-emerald-50 border-b border-emerald-100 px-5 py-2.5 text-sm text-emerald-700 fade-in"><%= notice %></div>
     <% end %>
     <% if alert %>
-      <div class="bg-red-50 border-b border-red-200 px-4 py-3 text-sm text-red-800"><%= alert %></div>
+      <div class="bg-red-50 border-b border-red-100 px-5 py-2.5 text-sm text-red-600 fade-in"><%= alert %></div>
     <% end %>
 
     <main>

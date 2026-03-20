@@ -1,0 +1,219 @@
+<div class="min-h-screen bg-gray-900 text-gray-100 p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-white">Dev Dashboard</h1>
+      <p class="text-gray-400 mt-1">Carvana AI Onboarding — Requirements Tracker</p>
+      <p class="text-gray-500 text-sm mt-1">Environment: <span class="text-yellow-400 font-mono"><%= Rails.env %></span> | Rails <%= Rails.version %> | Ruby <%= RUBY_VERSION %></p>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <!-- FR Summary -->
+      <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-white">Functional Requirements</h2>
+          <span class="text-2xl font-bold <%= @fr_stats[:percent] == 100 ? 'text-green-400' : 'text-blue-400' %>">
+            <%= @fr_stats[:percent] %>%
+          </span>
+        </div>
+        <div class="w-full bg-gray-700 rounded-full h-3 mb-4">
+          <div class="h-3 rounded-full bg-gradient-to-r from-blue-500 to-green-500" style="width: <%= @fr_stats[:percent] %>%"></div>
+        </div>
+        <div class="grid grid-cols-4 gap-2 text-center text-sm">
+          <div>
+            <div class="text-green-400 font-bold text-lg"><%= @fr_stats[:done] %></div>
+            <div class="text-gray-500">Done</div>
+          </div>
+          <div>
+            <div class="text-yellow-400 font-bold text-lg"><%= @fr_stats[:partial] %></div>
+            <div class="text-gray-500">Partial</div>
+          </div>
+          <div>
+            <div class="text-gray-400 font-bold text-lg"><%= @fr_stats[:deferred] %></div>
+            <div class="text-gray-500">Deferred</div>
+          </div>
+          <div>
+            <div class="text-red-400 font-bold text-lg"><%= @fr_stats[:not_started] %></div>
+            <div class="text-gray-500">Not Started</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NFR Summary -->
+      <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-white">Non-Functional Requirements</h2>
+          <span class="text-2xl font-bold <%= @nfr_stats[:percent] == 100 ? 'text-green-400' : 'text-blue-400' %>">
+            <%= @nfr_stats[:percent] %>%
+          </span>
+        </div>
+        <div class="w-full bg-gray-700 rounded-full h-3 mb-4">
+          <div class="h-3 rounded-full bg-gradient-to-r from-blue-500 to-green-500" style="width: <%= @nfr_stats[:percent] %>%"></div>
+        </div>
+        <div class="grid grid-cols-4 gap-2 text-center text-sm">
+          <div>
+            <div class="text-green-400 font-bold text-lg"><%= @nfr_stats[:done] %></div>
+            <div class="text-gray-500">Done</div>
+          </div>
+          <div>
+            <div class="text-yellow-400 font-bold text-lg"><%= @nfr_stats[:partial] %></div>
+            <div class="text-gray-500">Partial</div>
+          </div>
+          <div>
+            <div class="text-gray-400 font-bold text-lg"><%= @nfr_stats[:deferred] %></div>
+            <div class="text-gray-500">Deferred</div>
+          </div>
+          <div>
+            <div class="text-red-400 font-bold text-lg"><%= @nfr_stats[:not_started] %></div>
+            <div class="text-gray-500">Not Started</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Functional Requirements Table -->
+    <div class="bg-gray-800 rounded-lg border border-gray-700 mb-8 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-700">
+        <h2 class="text-lg font-semibold text-white">Functional Requirements (FR)</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-750">
+            <tr class="border-b border-gray-700 text-gray-400 text-left">
+              <th class="px-4 py-3 font-medium">ID</th>
+              <th class="px-4 py-3 font-medium">Domain</th>
+              <th class="px-4 py-3 font-medium">Requirement</th>
+              <th class="px-4 py-3 font-medium">Priority</th>
+              <th class="px-4 py-3 font-medium">Status</th>
+              <th class="px-4 py-3 font-medium">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @functional_requirements.each do |req| %>
+              <tr class="border-b border-gray-700/50 hover:bg-gray-700/30">
+                <td class="px-4 py-3 font-mono text-blue-400"><%= req[:id] %></td>
+                <td class="px-4 py-3">
+                  <span class="px-2 py-1 rounded text-xs font-medium
+                    <%= case req[:domain]
+                        when 'Auth' then 'bg-purple-900/50 text-purple-300'
+                        when 'Chatbot' then 'bg-blue-900/50 text-blue-300'
+                        when 'Documents' then 'bg-orange-900/50 text-orange-300'
+                        when 'Emotional' then 'bg-pink-900/50 text-pink-300'
+                        when 'Vehicles' then 'bg-cyan-900/50 text-cyan-300'
+                        when 'Core Flow' then 'bg-green-900/50 text-green-300'
+                        when 'Ops' then 'bg-yellow-900/50 text-yellow-300'
+                        when 'Scheduling' then 'bg-indigo-900/50 text-indigo-300'
+                        else 'bg-gray-900/50 text-gray-300'
+                        end %>">
+                    <%= req[:domain] %>
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-gray-200"><%= req[:requirement] %></td>
+                <td class="px-4 py-3">
+                  <span class="px-2 py-1 rounded text-xs font-medium
+                    <%= case req[:priority]
+                        when 'Must-have' then 'bg-red-900/50 text-red-300'
+                        when 'Should-have' then 'bg-yellow-900/50 text-yellow-300'
+                        when 'Could-have' then 'bg-gray-700 text-gray-300'
+                        end %>">
+                    <%= req[:priority] %>
+                  </span>
+                </td>
+                <td class="px-4 py-3">
+                  <%= render_status_badge(req[:status]) %>
+                </td>
+                <td class="px-4 py-3 text-gray-400 text-xs max-w-xs truncate" title="<%= req[:notes] %>"><%= req[:notes] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Non-Functional Requirements Table -->
+    <div class="bg-gray-800 rounded-lg border border-gray-700 mb-8 overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-700">
+        <h2 class="text-lg font-semibold text-white">Non-Functional Requirements (NFR)</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-700 text-gray-400 text-left">
+              <th class="px-4 py-3 font-medium">ID</th>
+              <th class="px-4 py-3 font-medium">Category</th>
+              <th class="px-4 py-3 font-medium">Requirement</th>
+              <th class="px-4 py-3 font-medium">Target</th>
+              <th class="px-4 py-3 font-medium">Status</th>
+              <th class="px-4 py-3 font-medium">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @non_functional_requirements.each do |req| %>
+              <tr class="border-b border-gray-700/50 hover:bg-gray-700/30">
+                <td class="px-4 py-3 font-mono text-blue-400"><%= req[:id] %></td>
+                <td class="px-4 py-3">
+                  <span class="px-2 py-1 rounded text-xs font-medium
+                    <%= case req[:category]
+                        when 'Performance' then 'bg-green-900/50 text-green-300'
+                        when 'Security' then 'bg-red-900/50 text-red-300'
+                        when 'Compliance' then 'bg-yellow-900/50 text-yellow-300'
+                        when 'Reliability' then 'bg-blue-900/50 text-blue-300'
+                        when 'Data Retention' then 'bg-orange-900/50 text-orange-300'
+                        when 'Accessibility' then 'bg-purple-900/50 text-purple-300'
+                        when 'Mobile' then 'bg-cyan-900/50 text-cyan-300'
+                        else 'bg-gray-900/50 text-gray-300'
+                        end %>">
+                    <%= req[:category] %>
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-gray-200"><%= req[:requirement] %></td>
+                <td class="px-4 py-3 font-mono text-sm text-gray-300"><%= req[:target] %></td>
+                <td class="px-4 py-3">
+                  <%= render_status_badge(req[:status]) %>
+                </td>
+                <td class="px-4 py-3 text-gray-400 text-xs max-w-xs truncate" title="<%= req[:notes] %>"><%= req[:notes] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Known Gaps -->
+    <div class="bg-gray-800 rounded-lg border border-gray-700 p-6 mb-8">
+      <h2 class="text-lg font-semibold text-white mb-4">Known Gaps</h2>
+      <ul class="space-y-2 text-sm text-gray-300">
+        <li class="flex items-start gap-2">
+          <span class="text-red-400 mt-0.5">&#x2717;</span>
+          <span><strong>Test suite</strong> — No RSpec tests written yet (target: 80% coverage)</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-red-400 mt-0.5">&#x2717;</span>
+          <span><strong>AWS Textract</strong> — Untested with real credentials (mock mode only)</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-red-400 mt-0.5">&#x2717;</span>
+          <span><strong>Mobile camera</strong> — Untested on iOS Safari / Android Chrome</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-red-400 mt-0.5">&#x2717;</span>
+          <span><strong>Live deployment</strong> — Render.com setup not completed</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-yellow-400 mt-0.5">&#x26A0;</span>
+          <span><strong>Database</strong> — Using SQLite3 locally; needs PostgreSQL for production</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-yellow-400 mt-0.5">&#x26A0;</span>
+          <span><strong>PII encryption</strong> — No field-level AES-256 encryption on sensitive columns</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-600 text-xs py-4">
+      Dev-only dashboard — not accessible in production
+    </div>
+  </div>
+</div>

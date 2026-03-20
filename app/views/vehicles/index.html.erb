@@ -1,49 +1,74 @@
 <!-- Hero -->
-<div class="bg-gradient-to-br from-blue-700 to-blue-900 text-white py-16 px-4">
-  <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-4xl sm:text-5xl font-bold mb-4">Buy Your Next Car,<br>Guided by AI</h1>
-    <p class="text-blue-100 text-lg mb-8">No dealership. No stress. Our AI assistant walks you through every step — from financing to keys in hand.</p>
-    <div class="flex flex-wrap justify-center gap-6 text-sm text-blue-200">
-      <span>✓ AI-guided financing</span>
-      <span>✓ Instant document scan</span>
-      <span>✓ No credit impact to browse</span>
+<div class="relative overflow-hidden bg-white border-b border-neutral-100">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20 sm:py-28">
+    <div class="max-w-2xl slide-up">
+      <div class="badge inline-flex items-center gap-1.5 bg-neutral-100 text-neutral-600 px-3 py-1 rounded-full mb-6">
+        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+        AI-powered onboarding
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1] mb-4">
+        Buy your next car,<br><span class="gradient-text">guided by AI</span>
+      </h1>
+      <p class="text-lg text-neutral-500 leading-relaxed mb-8 max-w-lg">
+        No dealership. No stress. AI walks you through financing, scans your documents instantly, and delivers to your door.
+      </p>
+      <div class="flex flex-wrap gap-5 text-sm text-neutral-400">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          AI-guided financing
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          Instant document scan
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          No credit impact to browse
+        </span>
+      </div>
     </div>
   </div>
+  <!-- Abstract gradient blob -->
+  <div class="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-full blur-3xl opacity-60 pointer-events-none"></div>
 </div>
 
 <!-- Inventory -->
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <div class="flex items-center justify-between mb-8">
-    <h2 class="text-2xl font-bold text-gray-900">Available Vehicles</h2>
-    <span class="text-sm text-gray-500"><%= @vehicles.count %> vehicles</span>
+<div class="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+  <div class="flex items-end justify-between mb-10">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight">Available vehicles</h2>
+      <p class="text-sm text-neutral-400 mt-1"><%= @vehicles.count %> vehicles in stock</p>
+    </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <% @vehicles.each do |vehicle| %>
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-        <div class="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative">
-          <div class="text-center">
-            <div class="text-5xl mb-2">🚗</div>
-            <span class="text-gray-500 text-sm"><%= vehicle.color %></span>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <% @vehicles.each_with_index do |vehicle, i| %>
+      <div class="card overflow-hidden fade-in" style="animation-delay: <%= i * 80 %>ms">
+        <div class="h-44 bg-gradient-to-br from-neutral-50 to-neutral-100 flex items-center justify-center relative">
+          <div class="text-5xl opacity-40">
+            <svg class="w-16 h-16 text-neutral-300" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.637m-12.75 0h12.75M5.625 5.25h12.75l1.875 5.625H3.75L5.625 5.25z" /></svg>
           </div>
           <% if vehicle.featured? %>
-            <span class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium">Featured</span>
+            <span class="absolute top-3 left-3 badge bg-neutral-900 text-white px-2.5 py-1 rounded-lg">Featured</span>
           <% end %>
+          <span class="absolute top-3 right-3 badge bg-white/80 backdrop-blur text-neutral-500 px-2 py-0.5 rounded-md border border-neutral-200/50"><%= vehicle.color %></span>
         </div>
 
         <div class="p-5">
-          <h3 class="font-bold text-gray-900 text-lg mb-1"><%= vehicle.display_name %></h3>
-          <p class="text-2xl font-bold text-blue-600 mb-1"><%= vehicle.formatted_price %></p>
-          <p class="text-sm text-gray-500 mb-3"><%= vehicle.formatted_mileage %> · Stock #<%= vehicle.stock_no %></p>
-          <p class="text-sm text-gray-600 mb-5 line-clamp-2"><%= vehicle.description %></p>
+          <div class="flex items-start justify-between mb-1">
+            <h3 class="font-semibold text-neutral-900"><%= vehicle.display_name %></h3>
+          </div>
+          <p class="text-xl font-bold tracking-tight mb-1"><%= vehicle.formatted_price %></p>
+          <p class="text-xs text-neutral-400 mb-4"><%= vehicle.formatted_mileage %> &middot; #<%= vehicle.stock_no %></p>
+          <p class="text-sm text-neutral-500 leading-relaxed mb-5 line-clamp-2"><%= vehicle.description %></p>
 
           <div class="flex gap-2">
-            <%= link_to "View Details", vehicle_path(vehicle), class: "flex-1 text-center border border-gray-300 text-gray-700 py-2 rounded-lg text-sm hover:bg-gray-50" %>
+            <%= link_to "Details", vehicle_path(vehicle), class: "flex-1 text-center btn-secondary py-2 rounded-lg text-sm font-medium" %>
             <% if user_signed_in? %>
               <%= button_to "Start Purchase", onboarding_applications_path(vehicle_id: vehicle.id), method: :post,
-                  class: "flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700 font-medium cursor-pointer" %>
+                  class: "flex-1 btn-primary py-2 rounded-lg text-sm font-medium cursor-pointer" %>
             <% else %>
-              <%= link_to "Start Purchase", new_user_registration_path, class: "flex-1 text-center bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700 font-medium" %>
+              <%= link_to "Start Purchase", new_user_registration_path, class: "flex-1 text-center btn-primary py-2 rounded-lg text-sm font-medium" %>
             <% end %>
           </div>
         </div>
@@ -53,24 +78,33 @@
 </div>
 
 <!-- How it works -->
-<div class="bg-white border-t border-gray-100 py-16 px-4">
-  <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-2xl font-bold text-gray-900 mb-10">How AI Onboarding Works</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
-      <div>
-        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">🤖</div>
-        <h3 class="font-semibold text-gray-900 mb-2">AI Guides You</h3>
-        <p class="text-sm text-gray-600">Our assistant explains every step, answers your questions, and helps fill forms — not for you, with you.</p>
+<div class="border-t border-neutral-100 bg-white">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-20">
+    <div class="text-center mb-14">
+      <h2 class="text-2xl font-bold tracking-tight">How it works</h2>
+      <p class="text-sm text-neutral-400 mt-2">Three steps. Under 30 minutes. No dealership.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
+      <div class="text-center">
+        <div class="w-11 h-11 bg-neutral-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+        </div>
+        <h3 class="font-semibold text-sm mb-1.5">AI guides you</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Ask questions, get instant answers. Your AI assistant explains every step in plain English.</p>
       </div>
-      <div>
-        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">📷</div>
-        <h3 class="font-semibold text-gray-900 mb-2">Scan Documents</h3>
-        <p class="text-sm text-gray-600">Point your camera at your license or pay stub. We extract the info automatically — no manual typing.</p>
+      <div class="text-center">
+        <div class="w-11 h-11 bg-neutral-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" /></svg>
+        </div>
+        <h3 class="font-semibold text-sm mb-1.5">Scan documents</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Point your camera at your license or pay stub. Data extracted automatically.</p>
       </div>
-      <div>
-        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl mx-auto mb-4">🔑</div>
-        <h3 class="font-semibold text-gray-900 mb-2">Get Your Keys</h3>
-        <p class="text-sm text-gray-600">Complete in under 30 minutes. We deliver to your door — no dealership visit ever required.</p>
+      <div class="text-center">
+        <div class="w-11 h-11 bg-neutral-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-5 h-5 text-neutral-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>
+        </div>
+        <h3 class="font-semibold text-sm mb-1.5">Get your keys</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed">Complete in under 30 minutes. We deliver to your door.</p>
       </div>
     </div>
   </div>
