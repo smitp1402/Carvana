@@ -487,14 +487,14 @@ carvana-ai-onboarding/
 **Goal:** Real AWS Textract integration — user points camera at document, fields auto-populate
 
 **Deliverables:**
-- [ ] `OCRService` — Textract wrapper with field extraction and mapping
-- [ ] `DocumentValidator` service — checks document type, legibility, required fields present
-- [ ] DocumentUpload model populated with extraction results
-- [ ] OCR camera capture TypeScript controller (MediaDevices API)
-- [ ] Step 4 (Document Upload) ViewComponent with camera UI
-- [ ] Field auto-population after successful OCR extraction
-- [ ] Proactive document checklist shown at start of Step 4
-- [ ] Specific error messages for failed/wrong document uploads
+- [x] `OCRService` — Textract wrapper with field extraction and mapping
+- [x] `DocumentValidator` service — checks document type, legibility, required fields present
+- [x] DocumentUpload model populated with extraction results
+- [x] OCR camera capture TypeScript controller (MediaDevices API)
+- [x] Step 4 (Document Upload) ViewComponent with camera UI
+- [x] Field auto-population after successful OCR extraction
+- [x] Proactive document checklist shown at start of Step 4
+- [x] Specific error messages for failed/wrong document uploads
 
 **Key Tasks:**
 1. Create `app/services/ocr_service.rb`:

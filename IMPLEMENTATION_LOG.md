@@ -24,3 +24,18 @@
   - ApplicationContext builds rich system prompt with vehicle details, collected data, jargon definitions, and first-time buyer guidance
   - Chat history (last 20 messages) included in Claude API context for continuity
   - Graceful fallback message if Claude API is unavailable
+
+## Phase 3: OCR Document Scanning — 2026-03-20
+- **Status:** Complete
+- **Deliverables:** 8/8 complete
+- **Deviations:**
+  - OcrService supports mock mode (MOCK_OCR=true) with realistic extraction data for demo, plus real AWS Textract integration (minor — plan already anticipated this risk mitigation)
+  - Used vanilla JavaScript instead of TypeScript for camera capture controller (minor — consistent with Phase 2 approach)
+  - Added separate "Upload" button alongside "Scan" for desktop users who can't use camera (enhancement — better accessibility)
+  - Document upload route added at `/document_uploads` instead of nested under `/onboarding/:id/documents` (minor — simpler routing, application_id passed as param)
+- **Notes:**
+  - Mock OCR returns realistic data: Jane Smith license, Acme Corporation pay stub, State Farm insurance
+  - DocumentValidator checks MIME type, file size (50KB-10MB), and document type
+  - Auto-populates application_data with extracted fields after successful OCR
+  - Checklist dynamically updates with green checkmarks as documents are verified
+  - Specific error messages for wrong format, too small, too large, extraction failures

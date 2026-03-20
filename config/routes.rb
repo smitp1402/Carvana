@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       post :scan
     end
   end
+  # Document uploads also accept nested under applications
+  post "onboarding_applications/:application_id/documents", to: "document_uploads#create", as: :application_documents
 
   resources :chat_messages, only: [ :create ]
 

@@ -11,79 +11,95 @@
 
         <!-- Document checklist -->
         <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-          <p class="text-sm font-medium text-amber-800 mb-2">📋 You'll need these 3 documents:</p>
-          <ul class="space-y-1 text-sm text-amber-700">
-            <li>✓ Driver's license (front)</li>
-            <li>✓ Most recent pay stub (or proof of income)</li>
-            <li>✓ Current auto insurance card</li>
+          <p class="text-sm font-medium text-amber-800 mb-2">You'll need these 3 documents:</p>
+          <ul class="space-y-1.5 text-sm text-amber-700">
+            <li class="flex items-center gap-2" id="checklist-license">
+              <span class="checklist-icon w-5 h-5 rounded-full border-2 border-amber-400 flex items-center justify-center text-xs"></span>
+              Driver's license (front)
+            </li>
+            <li class="flex items-center gap-2" id="checklist-pay_stub">
+              <span class="checklist-icon w-5 h-5 rounded-full border-2 border-amber-400 flex items-center justify-center text-xs"></span>
+              Most recent pay stub (or proof of income)
+            </li>
+            <li class="flex items-center gap-2" id="checklist-insurance">
+              <span class="checklist-icon w-5 h-5 rounded-full border-2 border-amber-400 flex items-center justify-center text-xs"></span>
+              Current auto insurance card
+            </li>
           </ul>
         </div>
 
         <!-- Document upload areas -->
-        <div class="space-y-4">
+        <div class="space-y-4" id="doc-upload-area" data-application-id="<%= @application.id %>" data-csrf="<%= form_authenticity_token %>">
           <!-- License -->
-          <div class="border-2 border-dashed border-gray-300 rounded-xl p-5 hover:border-blue-400 transition-colors" id="license-zone">
+          <div class="doc-zone border-2 border-dashed border-gray-300 rounded-xl p-5 transition-colors" id="zone-license" data-doc-type="license">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl">🪪</div>
+              <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🪪</div>
               <div class="flex-1">
                 <p class="font-medium text-gray-900 text-sm">Driver's License</p>
                 <p class="text-xs text-gray-500">We'll extract name, DOB, address automatically</p>
+                <p class="text-xs text-gray-400 mt-0.5">Why we ask: required by federal KYC regulations to verify your identity</p>
               </div>
-              <button class="scan-btn bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700"
-                      data-doc-type="license" data-application-id="<%= @application.id %>">
-                📷 Scan
-              </button>
-            </div>
-            <div class="license-result mt-3 hidden">
-              <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">
-                ✓ Extracted: <span class="font-medium" id="license-extracted"></span>
+              <div class="flex gap-2">
+                <button class="scan-btn bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors" data-doc-type="license">
+                  Scan
+                </button>
+                <button class="upload-btn bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors" data-doc-type="license">
+                  Upload
+                </button>
               </div>
             </div>
+            <div class="doc-status mt-3 hidden"></div>
+            <div class="doc-fields mt-3 hidden"></div>
           </div>
 
           <!-- Pay Stub -->
-          <div class="border-2 border-dashed border-gray-300 rounded-xl p-5 hover:border-blue-400 transition-colors">
+          <div class="doc-zone border-2 border-dashed border-gray-300 rounded-xl p-5 transition-colors" id="zone-pay_stub" data-doc-type="pay_stub">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl">💰</div>
+              <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">💰</div>
               <div class="flex-1">
                 <p class="font-medium text-gray-900 text-sm">Pay Stub / Income Proof</p>
                 <p class="text-xs text-gray-500">Most recent, showing gross income</p>
+                <p class="text-xs text-gray-400 mt-0.5">Why we ask: lenders need income verification to determine your loan eligibility</p>
               </div>
-              <button class="scan-btn bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700"
-                      data-doc-type="pay_stub" data-application-id="<%= @application.id %>">
-                📷 Scan
-              </button>
-            </div>
-            <div class="pay-stub-result mt-3 hidden">
-              <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">
-                ✓ Extracted: <span class="font-medium" id="pay-stub-extracted"></span>
+              <div class="flex gap-2">
+                <button class="scan-btn bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors" data-doc-type="pay_stub">
+                  Scan
+                </button>
+                <button class="upload-btn bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors" data-doc-type="pay_stub">
+                  Upload
+                </button>
               </div>
             </div>
+            <div class="doc-status mt-3 hidden"></div>
+            <div class="doc-fields mt-3 hidden"></div>
           </div>
 
           <!-- Insurance -->
-          <div class="border-2 border-dashed border-gray-300 rounded-xl p-5 hover:border-blue-400 transition-colors">
+          <div class="doc-zone border-2 border-dashed border-gray-300 rounded-xl p-5 transition-colors" id="zone-insurance" data-doc-type="insurance">
             <div class="flex items-center gap-4">
-              <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl">🛡️</div>
+              <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">🛡️</div>
               <div class="flex-1">
                 <p class="font-medium text-gray-900 text-sm">Insurance Card</p>
                 <p class="text-xs text-gray-500">Current policy showing coverage dates</p>
+                <p class="text-xs text-gray-400 mt-0.5">Why we ask: proof of insurance is required before vehicle delivery</p>
               </div>
-              <button class="scan-btn bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700"
-                      data-doc-type="insurance" data-application-id="<%= @application.id %>">
-                📷 Scan
-              </button>
-            </div>
-            <div class="insurance-result mt-3 hidden">
-              <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">
-                ✓ Extracted: <span class="font-medium" id="insurance-extracted"></span>
+              <div class="flex gap-2">
+                <button class="scan-btn bg-blue-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors" data-doc-type="insurance">
+                  Scan
+                </button>
+                <button class="upload-btn bg-gray-100 text-gray-700 px-3 py-2 rounded-lg text-sm hover:bg-gray-200 transition-colors" data-doc-type="insurance">
+                  Upload
+                </button>
               </div>
             </div>
+            <div class="doc-status mt-3 hidden"></div>
+            <div class="doc-fields mt-3 hidden"></div>
           </div>
         </div>
 
-        <!-- Hidden file input for camera -->
+        <!-- Hidden file inputs -->
         <input type="file" id="doc-camera-input" accept="image/*" capture="environment" class="hidden">
+        <input type="file" id="doc-file-input" accept="image/*,.pdf" class="hidden">
 
         <div class="mt-6">
           <%= form_with url: update_step_onboarding_application_path(@application, step: 3), method: :patch do |f| %>
@@ -106,3 +122,149 @@
     </div>
   </div>
 </div>
+
+<script>
+(function() {
+  const area = document.getElementById('doc-upload-area');
+  const applicationId = area.dataset.applicationId;
+  const csrfToken = area.dataset.csrf;
+  const cameraInput = document.getElementById('doc-camera-input');
+  const fileInput = document.getElementById('doc-file-input');
+  let activeDocType = null;
+
+  const FIELD_LABELS = {
+    license: { first_name: 'First Name', last_name: 'Last Name', date_of_birth: 'Date of Birth', address: 'Address', license_number: 'License #' },
+    pay_stub: { employer_name: 'Employer', gross_income: 'Gross Pay', pay_period: 'Pay Period', net_income: 'Net Pay' },
+    insurance: { policy_number: 'Policy #', carrier: 'Carrier', coverage_start: 'Start Date', coverage_end: 'End Date' }
+  };
+
+  // Scan buttons (camera)
+  area.querySelectorAll('.scan-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activeDocType = this.dataset.docType;
+      cameraInput.click();
+    });
+  });
+
+  // Upload buttons (file picker)
+  area.querySelectorAll('.upload-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activeDocType = this.dataset.docType;
+      fileInput.click();
+    });
+  });
+
+  cameraInput.addEventListener('change', handleFileSelected);
+  fileInput.addEventListener('change', handleFileSelected);
+
+  function handleFileSelected(e) {
+    const file = e.target.files[0];
+    if (!file || !activeDocType) return;
+    uploadDocument(activeDocType, file);
+    e.target.value = '';
+  }
+
+  async function uploadDocument(docType, file) {
+    const zone = document.getElementById('zone-' + docType);
+    const statusEl = zone.querySelector('.doc-status');
+    const fieldsEl = zone.querySelector('.doc-fields');
+
+    // Show processing state
+    zone.classList.remove('border-gray-300', 'border-green-400', 'border-red-400');
+    zone.classList.add('border-blue-400');
+    statusEl.className = 'doc-status mt-3';
+    statusEl.innerHTML = '<div class="flex items-center gap-2 text-sm text-blue-600"><svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Scanning document...</div>';
+    fieldsEl.className = 'doc-fields mt-3 hidden';
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('document_type', docType);
+    formData.append('application_id', applicationId);
+
+    try {
+      const response = await fetch('/document_uploads', {
+        method: 'POST',
+        headers: { 'X-CSRF-Token': csrfToken },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showError(zone, statusEl, fieldsEl, data.error || 'Upload failed');
+        return;
+      }
+
+      showSuccess(zone, statusEl, fieldsEl, docType, data);
+    } catch (error) {
+      console.error('Upload error:', error);
+      showError(zone, statusEl, fieldsEl, 'Network error. Please try again.');
+    }
+  }
+
+  function showSuccess(zone, statusEl, fieldsEl, docType, data) {
+    zone.classList.remove('border-blue-400', 'border-gray-300', 'border-red-400');
+    zone.classList.add('border-green-400');
+
+    const confidencePct = Math.round((data.confidence || 0) * 100);
+    statusEl.className = 'doc-status mt-3';
+    statusEl.innerHTML = '<div class="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700 flex items-center gap-2"><span class="font-medium">Document verified</span><span class="text-green-500">(' + confidencePct + '% confidence)</span></div>';
+
+    // Show extracted fields
+    const labels = FIELD_LABELS[docType] || {};
+    const fields = data.fields || {};
+    let fieldsHtml = '<div class="bg-gray-50 rounded-lg p-3 space-y-1.5">';
+    fieldsHtml += '<p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Extracted Data</p>';
+
+    for (const [key, value] of Object.entries(fields)) {
+      const label = labels[key] || key.replace(/_/g, ' ');
+      fieldsHtml += '<div class="flex justify-between text-sm"><span class="text-gray-500">' + escapeHtml(label) + '</span><span class="font-medium text-gray-900">' + escapeHtml(value) + '</span></div>';
+    }
+    fieldsHtml += '</div>';
+
+    fieldsEl.className = 'doc-fields mt-3';
+    fieldsEl.innerHTML = fieldsHtml;
+
+    // Update checklist
+    updateChecklist(docType, true);
+
+    // Disable scan/upload buttons for this doc
+    zone.querySelectorAll('.scan-btn, .upload-btn').forEach(function(btn) {
+      btn.disabled = true;
+      btn.classList.add('opacity-50', 'cursor-not-allowed');
+    });
+  }
+
+  function showError(zone, statusEl, fieldsEl, message) {
+    zone.classList.remove('border-blue-400', 'border-gray-300', 'border-green-400');
+    zone.classList.add('border-red-400');
+
+    statusEl.className = 'doc-status mt-3';
+    statusEl.innerHTML = '<div class="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">' + escapeHtml(message) + ' <button class="underline text-red-600 ml-1 retry-btn">Try again</button></div>';
+
+    statusEl.querySelector('.retry-btn').addEventListener('click', function() {
+      zone.classList.remove('border-red-400');
+      zone.classList.add('border-gray-300');
+      statusEl.className = 'doc-status mt-3 hidden';
+    });
+  }
+
+  function updateChecklist(docType, complete) {
+    const item = document.getElementById('checklist-' + docType);
+    if (!item) return;
+    const icon = item.querySelector('.checklist-icon');
+    if (complete) {
+      icon.classList.remove('border-amber-400');
+      icon.classList.add('border-green-500', 'bg-green-500', 'text-white');
+      icon.textContent = '✓';
+      item.classList.add('text-green-700');
+    }
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+})();
+</script>
