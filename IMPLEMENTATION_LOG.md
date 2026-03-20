@@ -51,3 +51,17 @@
   - Added milestone messages in progress bar: "Pre-qualification done", "Financing locked in", "Documents uploaded", "All done"
   - Added 3-minute inactivity re-engagement in chatbot widget — shows "Still thinking?" prompt
   - Inactivity timer resets on mouse/keyboard/scroll/touch events
+
+## Phase 5: Polish + Deploy — 2026-03-20
+- **Status:** Complete (deployment pending push + Render setup)
+- **Deliverables:** 5/7 complete (mobile testing and live URL require manual steps)
+- **Deviations:**
+  - Added Active Storage migration that was missing from Phase 1 (minor — Vehicle model uses `has_many_attached :images` which requires Active Storage tables)
+  - Render.com deployment uses `render.yaml` Infrastructure as Code instead of manual dashboard config (minor — more reproducible)
+  - Used Procfile with release command for auto-migration and seeding on deploy (enhancement)
+- **Notes:**
+  - Demo user: demo@carvana.com / demo1234
+  - Rails server boots clean on port 3001
+  - Seeds create 3 vehicles + demo user
+  - README includes full setup instructions, demo walkthrough, and deployment guide
+  - Mobile camera testing and live URL deployment are manual steps after push to GitHub

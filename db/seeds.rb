@@ -45,4 +45,16 @@ vehicles.each do |attrs|
 end
 
 puts "Created #{Vehicle.count} vehicles."
+
+# Demo user
+puts "Seeding demo user..."
+demo = User.find_or_create_by!(email: "demo@carvana.com") do |u|
+  u.password = "demo1234"
+  u.password_confirmation = "demo1234"
+  u.first_name = "Demo"
+  u.last_name = "User"
+  u.experience_level = :first_time
+end
+puts "Demo user: #{demo.email} / demo1234"
+
 puts "Done!"
