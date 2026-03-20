@@ -11,8 +11,12 @@ services:
     plan: free
     buildCommand: |
       bundle install &&
+      npm install &&
+      npm run build:css &&
+      npm run build &&
       bundle exec rails assets:precompile &&
-      bundle exec rails db:migrate
+      bundle exec rails db:migrate &&
+      bundle exec rails db:seed
     startCommand: bundle exec puma -C config/puma.rb
     envVars:
       - key: DATABASE_URL

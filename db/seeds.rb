@@ -1,7 +1,5 @@
 puts "Seeding vehicles..."
 
-Vehicle.destroy_all
-
 vehicles = [
   {
     make: "Honda",
