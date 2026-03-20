@@ -1,9 +1,11 @@
 <%= render "progress", application: @application %>
 
-<div class="max-w-2xl mx-auto px-4 py-8">
+<div class="max-w-3xl mx-auto px-4 py-8">
   <%= render "vehicle_card", vehicle: @vehicle %>
 
-  <div class="mt-8 bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-2">
+  <div class="bg-white rounded-2xl border border-gray-200 p-6">
     <h2 class="text-xl font-bold text-gray-900 mb-1">Review your application</h2>
     <p class="text-sm text-gray-500 mb-6">Almost there! Review your details before submitting.</p>
 
@@ -67,5 +69,18 @@
       <%= f.submit "Submit Application ✓",
           class: "w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-green-700 cursor-pointer" %>
     <% end %>
+  </div>
+  </div>
+
+    <!-- AI Chatbot -->
+    <div class="lg:col-span-1">
+      <%= render "chatbot_widget",
+          application: @application,
+          step: 4,
+          welcome_messages: [
+            "You're almost there! Review everything above and hit submit when you're ready. I'm here if you have any last questions."
+          ],
+          suggestions: ["Can I change my terms later?", "What is a hard inquiry?", "What happens after I submit?"] %>
+    </div>
   </div>
 </div>

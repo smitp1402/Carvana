@@ -63,7 +63,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
               SSN Last 4 Digits
-              <span class="text-gray-400 font-normal text-xs ml-1">— for formal credit application</span>
+              <span class="text-gray-400 font-normal text-xs ml-1">— Why we ask: required to verify your identity for the credit application</span>
             </label>
             <%= f.text_field :ssn_last4, placeholder: "1234", maxlength: 4,
                 class: "w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500",
@@ -78,28 +78,13 @@
     </div>
 
     <div class="lg:col-span-1">
-      <div id="chatbot-widget" class="bg-white rounded-2xl border border-gray-200 overflow-hidden"
-           data-application-id="<%= @application.id %>" data-step="2">
-        <div class="bg-blue-600 px-4 py-3 flex items-center gap-3">
-          <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">AI</div>
-          <p class="text-white font-medium text-sm">Carvana Assistant</p>
-        </div>
-        <div id="chat-messages" class="h-64 overflow-y-auto p-4 space-y-3">
-          <div class="flex gap-2">
-            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5">AI</div>
-            <div class="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-gray-700 max-w-xs">
-              Great work on step 1! Now let's set up your financing. Use the sliders to find a payment you're comfortable with. 💰
-            </div>
-          </div>
-        </div>
-        <div class="border-t border-gray-200 p-3">
-          <div class="flex gap-2">
-            <input type="text" id="chat-input" placeholder="Ask anything..."
-                   class="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500">
-            <button id="chat-send" class="bg-blue-600 text-white px-3 py-2 rounded-xl text-sm hover:bg-blue-700">→</button>
-          </div>
-        </div>
-      </div>
+      <%= render "chatbot_widget",
+          application: @application,
+          step: 2,
+          welcome_messages: [
+            "Great work on step 1! Now let's set up your financing. Use the sliders to find a payment you're comfortable with."
+          ],
+          suggestions: ["What is APR?", "What is GAP insurance?", "What loan term should I pick?"] %>
     </div>
   </div>
 </div>

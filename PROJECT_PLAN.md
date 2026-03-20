@@ -409,14 +409,14 @@ carvana-ai-onboarding/
 **Goal:** Rails app running with auth, database, vehicles, and the onboarding form skeleton
 
 **Deliverables:**
-- [ ] Rails 7.2 app created with PostgreSQL, Tailwind, ViewComponent, Devise
-- [ ] Vehicle model + migration + seed data (3 cars with images)
-- [ ] User model + Devise auth (signup, login, sessions)
-- [ ] OnboardingApplication model + state machine (5 steps)
-- [ ] Vehicles index page (browse inventory)
-- [ ] 5-step onboarding flow scaffold (empty steps, navigation working)
-- [ ] Persistent vehicle summary card throughout flow
-- [ ] Progress indicator component
+- [x] Rails 7.2 app created with PostgreSQL, Tailwind, ViewComponent, Devise
+- [x] Vehicle model + migration + seed data (3 cars with images)
+- [x] User model + Devise auth (signup, login, sessions)
+- [x] OnboardingApplication model + state machine (5 steps)
+- [x] Vehicles index page (browse inventory)
+- [x] 5-step onboarding flow scaffold (empty steps, navigation working)
+- [x] Persistent vehicle summary card throughout flow
+- [x] Progress indicator component
 
 **Key Tasks:**
 1. `rails new carvana-ai-onboarding --database=postgresql --asset-pipeline=propshaft`
@@ -446,14 +446,14 @@ carvana-ai-onboarding/
 **Goal:** Working real-time chatbot powered by Claude API, streaming responses, context-aware
 
 **Deliverables:**
-- [ ] `LLMService` — Claude API wrapper with system prompt construction
-- [ ] `ApplicationContext` service — builds chatbot context from current application state
-- [ ] `ChatbotChannel` — ActionCable channel for WebSocket streaming
-- [ ] ChatMessage model populated per session
-- [ ] Chatbot widget TypeScript controller (UI + streaming display)
-- [ ] Chatbot widget ViewComponent (chat bubble, input, message list)
-- [ ] Jargon simplifier — APR, LTV, GAP, DTI explanations in system prompt
-- [ ] "Why we ask this" micro-copy on each sensitive form field
+- [x] `LLMService` — Claude API wrapper with system prompt construction
+- [x] `ApplicationContext` service — builds chatbot context from current application state
+- [x] `ChatbotChannel` — ActionCable channel for WebSocket streaming
+- [x] ChatMessage model populated per session
+- [x] Chatbot widget TypeScript controller (UI + streaming display)
+- [x] Chatbot widget ViewComponent (chat bubble, input, message list)
+- [x] Jargon simplifier — APR, LTV, GAP, DTI explanations in system prompt
+- [x] "Why we ask this" micro-copy on each sensitive form field
 
 **Key Tasks:**
 1. Create `app/services/llm_service.rb` with `call(messages:, context:)` method

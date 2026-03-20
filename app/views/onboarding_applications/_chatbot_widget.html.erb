@@ -1,0 +1,231 @@
+<div id="chatbot-widget"
+     class="bg-white rounded-2xl border border-gray-200 overflow-hidden h-full flex flex-col"
+     data-application-id="<%= application.id %>"
+     data-step="<%= step %>"
+     data-csrf="<%= form_authenticity_token %>">
+  <!-- Header -->
+  <div class="bg-blue-600 px-4 py-3 flex items-center gap-3 flex-shrink-0">
+    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">AI</div>
+    <div>
+      <p class="text-white font-medium text-sm">Carvana Assistant</p>
+      <p class="text-blue-200 text-xs" id="chatbot-status">Always here to help</p>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3" style="min-height: 256px; max-height: 400px;">
+    <% if local_assigns[:welcome_messages] && application.chat_messages.empty? %>
+      <% welcome_messages.each do |msg| %>
+        <div class="flex gap-2">
+          <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 text-blue-600 font-medium">AI</div>
+          <div class="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-gray-700 max-w-xs">
+            <%= msg %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% application.chat_messages.order(created_at: :asc).each do |msg| %>
+      <% if msg.role == "assistant" %>
+        <div class="flex gap-2">
+          <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 text-blue-600 font-medium">AI</div>
+          <div class="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-gray-700 max-w-xs">
+            <%= msg.content %>
+          </div>
+        </div>
+      <% else %>
+        <div class="flex gap-2 justify-end">
+          <div class="bg-blue-600 rounded-2xl rounded-tr-none px-4 py-2 text-sm text-white max-w-xs">
+            <%= msg.content %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Quick suggestions -->
+  <% if local_assigns[:suggestions] && suggestions.any? %>
+    <div id="chat-suggestions" class="px-4 pb-2 flex flex-wrap gap-2">
+      <% suggestions.each do |s| %>
+        <button class="chat-suggestion text-xs bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full border border-blue-200 hover:bg-blue-100 transition-colors cursor-pointer">
+          <%= s %>
+        </button>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- Input -->
+  <div class="border-t border-gray-200 p-3 flex-shrink-0">
+    <div class="flex gap-2">
+      <input type="text" id="chat-input" placeholder="Ask me anything..."
+             class="flex-1 px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+             autocomplete="off">
+      <button id="chat-send" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+        Send
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const widget = document.getElementById('chatbot-widget');
+  const messagesEl = document.getElementById('chat-messages');
+  const inputEl = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+  const statusEl = document.getElementById('chatbot-status');
+  const suggestionsEl = document.getElementById('chat-suggestions');
+
+  const applicationId = widget.dataset.applicationId;
+  const step = widget.dataset.step;
+  const csrfToken = widget.dataset.csrf;
+
+  let sending = false;
+
+  function scrollToBottom() {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function appendMessage(role, content) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex gap-2' + (role === 'user' ? ' justify-end' : '');
+
+    if (role === 'assistant') {
+      wrapper.innerHTML =
+        '<div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 text-blue-600 font-medium">AI</div>' +
+        '<div class="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-gray-700 max-w-xs">' +
+        escapeHtml(content) + '</div>';
+    } else {
+      wrapper.innerHTML =
+        '<div class="bg-blue-600 rounded-2xl rounded-tr-none px-4 py-2 text-sm text-white max-w-xs">' +
+        escapeHtml(content) + '</div>';
+    }
+
+    messagesEl.appendChild(wrapper);
+    scrollToBottom();
+    return wrapper;
+  }
+
+  function createStreamingMessage() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'flex gap-2';
+    wrapper.innerHTML =
+      '<div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 text-blue-600 font-medium">AI</div>' +
+      '<div class="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-2 text-sm text-gray-700 max-w-xs streaming-content"></div>';
+    messagesEl.appendChild(wrapper);
+    scrollToBottom();
+    return wrapper.querySelector('.streaming-content');
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function setLoading(isLoading) {
+    sending = isLoading;
+    sendBtn.disabled = isLoading;
+    inputEl.disabled = isLoading;
+    statusEl.textContent = isLoading ? 'Typing...' : 'Always here to help';
+  }
+
+  async function sendMessage(message) {
+    if (!message.trim() || sending) return;
+
+    // Hide suggestions after first message
+    if (suggestionsEl) suggestionsEl.style.display = 'none';
+
+    appendMessage('user', message);
+    inputEl.value = '';
+    setLoading(true);
+
+    try {
+      const response = await fetch('/chat_messages?stream=true', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
+          'Accept': 'text/event-stream'
+        },
+        body: JSON.stringify({
+          application_id: applicationId,
+          step: step,
+          message: message
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+
+      if (contentType.includes('text/event-stream')) {
+        // Streaming response
+        const streamEl = createStreamingMessage();
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(trimmed.slice(6));
+                if (data.token) {
+                  streamEl.textContent += data.token;
+                  scrollToBottom();
+                }
+              } catch (e) {
+                // ignore parse errors
+              }
+            }
+          }
+        }
+      } else {
+        // JSON response (non-streaming fallback)
+        const data = await response.json();
+        appendMessage('assistant', data.content);
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
+      appendMessage('assistant', "I'm having a little trouble connecting right now. You can continue filling out the form — I'll be back shortly!");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Event listeners
+  sendBtn.addEventListener('click', function() {
+    sendMessage(inputEl.value);
+  });
+
+  inputEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(inputEl.value);
+    }
+  });
+
+  // Quick suggestion buttons
+  if (suggestionsEl) {
+    suggestionsEl.querySelectorAll('.chat-suggestion').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        sendMessage(this.textContent.trim());
+      });
+    });
+  }
+
+  // Scroll to bottom on load
+  scrollToBottom();
+})();
+</script>
