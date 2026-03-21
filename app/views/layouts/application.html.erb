@@ -3,51 +3,214 @@
   <head>
     <title><%= content_for(:title) || "Carvana AI Onboarding" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="AI-powered car buying experience. No dealership, no stress.">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
     <style>
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f7f8fa;
+        --bg-tertiary: #f0f1f3;
+        --text-primary: #111827;
+        --text-secondary: #4b5563;
+        --text-muted: #9ca3af;
+        --border: #e5e7eb;
+        --border-light: #f3f4f6;
+        --accent: #0052ff;
+        --accent-hover: #0041cc;
+        --accent-light: #eff4ff;
+        --accent-gradient: linear-gradient(135deg, #0052ff 0%, #7c3aed 100%);
+        --success: #059669;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+        --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+        --shadow-xl: 0 20px 60px rgba(0,0,0,0.1);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+      }
       * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-      body { background: #fafafa; }
-      .glass-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-      .gradient-text { background: linear-gradient(135deg, #0066FF 0%, #6366f1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-      .btn-primary { background: #0f0f0f; color: white; transition: all 0.15s ease; }
-      .btn-primary:hover { background: #262626; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-      .btn-secondary { background: white; color: #0f0f0f; border: 1px solid #e5e5e5; transition: all 0.15s ease; }
-      .btn-secondary:hover { border-color: #0f0f0f; transform: translateY(-1px); }
-      .input-field { border: 1px solid #e5e5e5; transition: all 0.15s ease; outline: none; }
-      .input-field:focus { border-color: #0f0f0f; box-shadow: 0 0 0 3px rgba(15,15,15,0.06); }
-      .card { background: white; border: 1px solid #f0f0f0; border-radius: 16px; transition: all 0.2s ease; }
-      .card:hover { border-color: #e0e0e0; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
-      .badge { font-size: 11px; letter-spacing: 0.02em; font-weight: 500; }
-      .fade-in { animation: fadeIn 0.4s ease; }
-      @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-      .slide-up { animation: slideUp 0.5s ease; }
-      @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      body { background: var(--bg-secondary); -webkit-font-smoothing: antialiased; }
+
+      /* Glass nav */
+      .glass-nav {
+        background: rgba(255,255,255,0.85);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+      }
+
+      /* Gradient text */
+      .gradient-text {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Buttons */
+      .btn-primary {
+        background: var(--text-primary);
+        color: white;
+        font-weight: 600;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-sm);
+      }
+      .btn-primary:hover {
+        background: #000;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+      }
+      .btn-primary:active { transform: translateY(0); }
+
+      .btn-accent {
+        background: var(--accent);
+        color: white;
+        font-weight: 600;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0,82,255,0.25);
+      }
+      .btn-accent:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(0,82,255,0.3);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: var(--text-primary);
+        border: 1.5px solid var(--border);
+        font-weight: 500;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .btn-secondary:hover {
+        border-color: var(--text-primary);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Input */
+      .input-field {
+        border: 1.5px solid var(--border);
+        transition: all 0.2s ease;
+        outline: none;
+        background: white;
+      }
+      .input-field:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(0,82,255,0.1);
+      }
+
+      /* Cards */
+      .card {
+        background: white;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-lg);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-sm);
+      }
+      .card:hover {
+        border-color: var(--border);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+      }
+
+      /* Badge */
+      .badge {
+        font-size: 11px;
+        letter-spacing: 0.03em;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .slide-up {
+        animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .scale-in {
+        animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
+      /* Pulse dot */
+      .pulse-dot {
+        position: relative;
+      }
+      .pulse-dot::after {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 50%;
+        background: inherit;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50% { opacity: 0; transform: scale(2); }
+      }
+
+      /* Stat counter */
+      .stat-value {
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Footer link */
+      .footer-link {
+        color: var(--text-muted);
+        transition: color 0.15s;
+      }
+      .footer-link:hover { color: var(--text-primary); }
+
+      /* Smooth scroll */
+      html { scroll-behavior: smooth; }
     </style>
   </head>
 
   <body class="h-full antialiased text-neutral-900">
     <!-- Nav -->
-    <nav class="sticky top-0 z-50 border-b border-neutral-200/60 glass-card">
-      <div class="max-w-6xl mx-auto px-5 sm:px-8">
-        <div class="flex justify-between items-center h-14">
-          <%= link_to root_path, class: "flex items-center gap-2" do %>
-            <span class="text-lg font-bold tracking-tight">carvana</span>
-            <span class="badge bg-neutral-900 text-white px-2 py-0.5 rounded-md">AI</span>
+    <nav class="sticky top-0 z-50 border-b border-neutral-200/50 glass-nav">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div class="flex justify-between items-center h-16">
+          <%= link_to root_path, class: "flex items-center gap-2.5 group" do %>
+            <div class="w-8 h-8 rounded-lg bg-neutral-900 flex items-center justify-center">
+              <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>
+            </div>
+            <span class="text-lg font-bold tracking-tight">Carvana</span>
+            <span class="badge bg-accent-light text-accent px-2 py-0.5 rounded-md text-[10px]" style="background: var(--accent-light); color: var(--accent);">AI</span>
           <% end %>
-          <div class="flex items-center gap-3">
+
+          <div class="flex items-center gap-2">
             <% if user_signed_in? %>
-              <span class="text-sm text-neutral-500"><%= current_user.first_name.presence || current_user.email.split("@").first %></span>
-              <div class="w-px h-4 bg-neutral-200"></div>
-              <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-neutral-400 hover:text-neutral-900 transition-colors" %>
+              <div class="flex items-center gap-3 mr-1">
+                <div class="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center">
+                  <span class="text-xs font-semibold text-neutral-600"><%= (current_user.first_name.presence || current_user.email[0]).first.upcase %></span>
+                </div>
+                <span class="text-sm font-medium text-neutral-700 hidden sm:block"><%= current_user.first_name.presence || current_user.email.split("@").first %></span>
+              </div>
+              <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-neutral-400 hover:text-neutral-900 transition-colors px-3 py-1.5" %>
             <% else %>
-              <%= link_to "Sign in", new_user_session_path, class: "text-sm text-neutral-500 hover:text-neutral-900 transition-colors" %>
-              <%= link_to "Get Started", new_user_registration_path, class: "btn-primary text-sm px-4 py-1.5 rounded-lg font-medium" %>
+              <%= link_to "Sign in", new_user_session_path, class: "text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors px-3 py-2" %>
+              <%= link_to "Get Started", new_user_registration_path, class: "btn-accent text-sm px-5 py-2 rounded-lg" %>
             <% end %>
           </div>
         </div>
@@ -56,14 +219,63 @@
 
     <!-- Flash messages -->
     <% if notice %>
-      <div class="bg-emerald-50 border-b border-emerald-100 px-5 py-2.5 text-sm text-emerald-700 fade-in"><%= notice %></div>
+      <div class="border-b border-emerald-100 bg-emerald-50/80 fade-in">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3 flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span class="text-sm text-emerald-700 font-medium"><%= notice %></span>
+        </div>
+      </div>
     <% end %>
     <% if alert %>
-      <div class="bg-red-50 border-b border-red-100 px-5 py-2.5 text-sm text-red-600 fade-in"><%= alert %></div>
+      <div class="border-b border-red-100 bg-red-50/80 fade-in">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3 flex items-center gap-2">
+          <svg class="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+          <span class="text-sm text-red-600 font-medium"><%= alert %></span>
+        </div>
+      </div>
     <% end %>
 
     <main>
       <%= yield %>
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-neutral-200/60 bg-white">
+      <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-8">
+          <div class="sm:col-span-2">
+            <div class="flex items-center gap-2.5 mb-4">
+              <div class="w-7 h-7 rounded-md bg-neutral-900 flex items-center justify-center">
+                <svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>
+              </div>
+              <span class="font-bold tracking-tight">Carvana AI</span>
+            </div>
+            <p class="text-sm text-neutral-400 max-w-xs leading-relaxed">AI-powered car buying experience. Financing, document scanning, and delivery — all from your couch.</p>
+          </div>
+          <div>
+            <h4 class="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-4">Product</h4>
+            <ul class="space-y-2.5">
+              <li><%= link_to "Browse Vehicles", vehicles_path, class: "footer-link text-sm" %></li>
+              <li><a href="#how-it-works" class="footer-link text-sm">How it Works</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-4">Account</h4>
+            <ul class="space-y-2.5">
+              <% if user_signed_in? %>
+                <li><%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete }, class: "footer-link text-sm" %></li>
+              <% else %>
+                <li><%= link_to "Sign In", new_user_session_path, class: "footer-link text-sm" %></li>
+                <li><%= link_to "Create Account", new_user_registration_path, class: "footer-link text-sm" %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-10 pt-6 border-t border-neutral-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p class="text-xs text-neutral-400">Demo prototype for Gauntlet AI &middot; Built with Rails, Claude AI, and AWS Textract</p>
+          <p class="text-xs text-neutral-300">demo@carvana.com / demo1234</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,36 +1,109 @@
-<div class="max-w-6xl mx-auto px-5 sm:px-8 py-12">
-  <div class="mb-6">
-    <%= link_to "&larr; Back to inventory".html_safe, vehicles_path, class: "text-sm text-neutral-400 hover:text-neutral-900 transition-colors" %>
+<div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-10 sm:py-14">
+  <!-- Breadcrumb -->
+  <div class="mb-8">
+    <%= link_to vehicles_path, class: "inline-flex items-center gap-1.5 text-sm text-neutral-400 hover:text-neutral-900 transition-colors group" do %>
+      <svg class="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" /></svg>
+      Back to inventory
+    <% end %>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-    <!-- 3D Car Viewer -->
-    <div class="card overflow-hidden">
-      <%= render "vehicles/car_3d", car_color: @vehicle.hex_color, container_id: "car-detail", height: "h-80", interactive: true %>
-    </div>
-
-    <!-- Details -->
-    <div>
-      <% if @vehicle.featured? %>
-        <span class="badge inline-flex items-center gap-1.5 bg-neutral-900 text-white px-2.5 py-1 rounded-lg mb-3">Featured</span>
-      <% end %>
-      <h1 class="text-3xl font-bold tracking-tight mb-2"><%= @vehicle.display_name %></h1>
-      <p class="text-3xl font-bold tracking-tight mb-4"><%= @vehicle.formatted_price %></p>
-
-      <div class="flex flex-wrap gap-3 mb-6">
-        <span class="badge bg-neutral-100 text-neutral-600 px-3 py-1.5 rounded-lg"><%= @vehicle.formatted_mileage %></span>
-        <span class="badge bg-neutral-100 text-neutral-600 px-3 py-1.5 rounded-lg"><%= @vehicle.color %></span>
-        <span class="badge bg-neutral-100 text-neutral-600 px-3 py-1.5 rounded-lg">#<%= @vehicle.stock_no %></span>
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
+    <!-- Left: 3D Viewer (3 cols) -->
+    <div class="lg:col-span-3">
+      <div class="card overflow-hidden">
+        <div class="relative bg-neutral-50">
+          <%= render "vehicles/car_3d", car_color: @vehicle.hex_color, container_id: "car-detail", height: "h-72 sm:h-96", interactive: true %>
+          <% if @vehicle.featured? %>
+            <span class="absolute top-4 left-4 badge text-white px-3 py-1 rounded-lg z-10" style="background: var(--accent);">Featured</span>
+          <% end %>
+        </div>
       </div>
 
-      <p class="text-neutral-500 leading-relaxed mb-8"><%= @vehicle.description %></p>
+      <!-- Vehicle description card -->
+      <div class="card p-6 sm:p-8 mt-6">
+        <h3 class="font-bold text-lg mb-3">About this vehicle</h3>
+        <p class="text-neutral-500 leading-relaxed"><%= @vehicle.description %></p>
 
-      <% if user_signed_in? %>
-        <%= button_to "Start Purchase", onboarding_applications_path(vehicle_id: @vehicle.id), method: :post,
-            class: "btn-primary px-8 py-3 rounded-xl text-sm font-semibold cursor-pointer" %>
-      <% else %>
-        <%= link_to "Sign up to purchase", new_user_registration_path, class: "btn-primary inline-block px-8 py-3 rounded-xl text-sm font-semibold" %>
-      <% end %>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-neutral-100">
+          <div>
+            <p class="text-xs text-neutral-400 mb-1">Year</p>
+            <p class="font-semibold text-sm"><%= @vehicle.year %></p>
+          </div>
+          <div>
+            <p class="text-xs text-neutral-400 mb-1">Make</p>
+            <p class="font-semibold text-sm"><%= @vehicle.make %></p>
+          </div>
+          <div>
+            <p class="text-xs text-neutral-400 mb-1">Model</p>
+            <p class="font-semibold text-sm"><%= @vehicle.model %></p>
+          </div>
+          <div>
+            <p class="text-xs text-neutral-400 mb-1">Color</p>
+            <p class="font-semibold text-sm"><%= @vehicle.color %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Details + CTA (2 cols) -->
+    <div class="lg:col-span-2">
+      <div class="lg:sticky lg:top-24">
+        <div class="card p-6 sm:p-8">
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1"><%= @vehicle.display_name %></h1>
+          <p class="text-xs text-neutral-400 mb-5">Stock #<%= @vehicle.stock_no %></p>
+
+          <p class="text-3xl font-extrabold tracking-tight mb-1"><%= @vehicle.formatted_price %></p>
+          <p class="text-sm text-neutral-400 mb-6">Est. <%= "$#{(@vehicle.price * 0.018).to_i}" %>/mo with financing</p>
+
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="text-xs font-medium bg-neutral-50 text-neutral-600 px-3 py-1.5 rounded-lg border border-neutral-100"><%= @vehicle.formatted_mileage %></span>
+            <span class="text-xs font-medium bg-neutral-50 text-neutral-600 px-3 py-1.5 rounded-lg border border-neutral-100"><%= @vehicle.color %></span>
+          </div>
+
+          <div class="border-t border-neutral-100 pt-6 mb-6">
+            <div class="space-y-3">
+              <div class="flex items-center gap-3 text-sm">
+                <svg class="w-4.5 h-4.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span class="text-neutral-600">100-day / 4,189-mile return policy</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm">
+                <svg class="w-4.5 h-4.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span class="text-neutral-600">Free delivery to your door</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm">
+                <svg class="w-4.5 h-4.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span class="text-neutral-600">No credit impact to pre-qualify</span>
+              </div>
+            </div>
+          </div>
+
+          <% if user_signed_in? %>
+            <%= button_to "Start Purchase", onboarding_applications_path(vehicle_id: @vehicle.id), method: :post,
+                class: "w-full btn-accent py-3.5 rounded-xl text-sm cursor-pointer flex items-center justify-center gap-2" do %>
+              Start Purchase
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            <% end %>
+          <% else %>
+            <%= link_to new_user_registration_path, class: "w-full btn-accent py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2" do %>
+              Sign up to purchase
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            <% end %>
+          <% end %>
+
+          <p class="text-xs text-neutral-400 text-center mt-3">5-minute pre-qualification. No obligation.</p>
+        </div>
+
+        <!-- AI assistant teaser -->
+        <div class="card p-5 mt-4 flex items-center gap-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background: var(--accent-light);">
+            <svg class="w-5 h-5" style="color: var(--accent);" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold">AI Assistant included</p>
+            <p class="text-xs text-neutral-400">Get instant answers about this vehicle during purchase</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
