@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carvana AI - Neon Showroom Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --abyss: #050510;
+    --deep: #0A0A1F;
+    --surface: #12122A;
+    --raised: #1A1A3A;
+    --neon-blue: #00D4FF;
+    --neon-pink: #FF2D95;
+    --neon-green: #00FF88;
+    --neon-purple: #B44AFF;
+    --steel: #5A5A8A;
+    --silver: #8888BB;
+    --light: #CCCCEE;
+    --white: #EEEEFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Space Grotesk', sans-serif; background: var(--abyss); color: var(--white); -webkit-font-smoothing: antialiased; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(5,5,16,0.85); backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(0,212,255,0.08); padding: 0 48px;
+  }
+  .nav-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-text {
+    font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;
+    color: var(--neon-blue); text-shadow: 0 0 20px rgba(0,212,255,0.4);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .logo-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700;
+    background: rgba(255,45,149,0.1); color: var(--neon-pink);
+    padding: 3px 8px; border: 1px solid rgba(255,45,149,0.3);
+    text-shadow: 0 0 8px rgba(255,45,149,0.4);
+  }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-link {
+    font-size: 13px; color: var(--steel); text-decoration: none; padding: 8px 16px;
+    transition: all 0.2s; font-weight: 500;
+  }
+  .nav-link:hover { color: var(--neon-blue); text-shadow: 0 0 8px rgba(0,212,255,0.3); }
+  .nav-cta {
+    font-size: 13px; font-weight: 600; color: var(--abyss);
+    background: var(--neon-blue); padding: 10px 24px;
+    text-decoration: none; transition: all 0.25s;
+    box-shadow: 0 0 20px rgba(0,212,255,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .nav-cta:hover { box-shadow: 0 0 32px rgba(0,212,255,0.5); transform: translateY(-1px); }
+
+  .hero {
+    padding: 100px 48px 120px; position: relative; overflow: hidden;
+    background: var(--abyss);
+  }
+  /* Grid background */
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
+    background: linear-gradient(to top, var(--abyss), transparent);
+  }
+  .hero-glow {
+    position: absolute; width: 600px; height: 600px; border-radius: 50%;
+    filter: blur(120px); opacity: 0.15; pointer-events: none;
+  }
+  .hero-glow-1 { top: -200px; right: 10%; background: var(--neon-blue); }
+  .hero-glow-2 { bottom: -200px; left: 10%; background: var(--neon-pink); }
+
+  .hero-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--neon-green); margin-bottom: 28px;
+    text-shadow: 0 0 8px rgba(0,255,136,0.3);
+  }
+  .hero-tag::before { content: '//'; color: var(--steel); }
+  .hero h1 {
+    font-size: 60px; font-weight: 700; line-height: 1.05;
+    letter-spacing: -2px; margin-bottom: 20px;
+  }
+  .hero .neon { color: var(--neon-blue); text-shadow: 0 0 40px rgba(0,212,255,0.3); }
+  .hero-sub { font-size: 17px; line-height: 1.65; color: var(--silver); max-width: 440px; margin-bottom: 40px; }
+  .hero-actions { display: flex; gap: 12px; margin-bottom: 48px; }
+  .btn-neon {
+    font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
+    padding: 16px 36px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.3s; border: none; cursor: pointer;
+  }
+  .btn-neon-blue {
+    background: var(--neon-blue); color: var(--abyss);
+    box-shadow: 0 0 24px rgba(0,212,255,0.3), 0 0 80px rgba(0,212,255,0.1);
+  }
+  .btn-neon-blue:hover {
+    box-shadow: 0 0 40px rgba(0,212,255,0.5), 0 0 120px rgba(0,212,255,0.15);
+    transform: translateY(-2px);
+  }
+  .btn-neon-ghost {
+    background: transparent; color: var(--light);
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+  .btn-neon-ghost:hover { border-color: var(--neon-blue); color: var(--neon-blue); text-shadow: 0 0 8px rgba(0,212,255,0.3); }
+  .btn-neon svg { width: 18px; height: 18px; }
+
+  .hero-stats { display: flex; gap: 40px; }
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700;
+    color: var(--neon-blue); text-shadow: 0 0 16px rgba(0,212,255,0.3);
+  }
+  .stat-lbl { font-size: 12px; color: var(--steel); margin-top: 4px; }
+
+  .hero-car {
+    background: var(--surface); border: 1px solid rgba(0,212,255,0.1);
+    overflow: hidden; position: relative;
+  }
+  .hero-car::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
+  }
+  .hero-car-visual {
+    height: 320px; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at 50% 80%, rgba(0,212,255,0.08), transparent 60%);
+    position: relative;
+  }
+  .hero-car-visual span {
+    font-size: 120px;
+    filter: drop-shadow(0 0 30px rgba(0,212,255,0.3));
+  }
+  .hero-car-info {
+    padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(0,212,255,0.08);
+    background: rgba(0,212,255,0.02);
+  }
+  .hero-car-name { font-weight: 700; font-size: 16px; }
+  .hero-car-meta { font-size: 12px; color: var(--steel); margin-top: 2px; }
+  .hero-car-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700;
+    background: rgba(255,45,149,0.1); color: var(--neon-pink);
+    padding: 6px 14px; border: 1px solid rgba(255,45,149,0.2);
+    text-shadow: 0 0 8px rgba(255,45,149,0.3);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  /* Scan line effect */
+  .hero-car-visual::after {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,212,255,0.02) 2px, rgba(0,212,255,0.02) 4px
+    );
+    pointer-events: none;
+  }
+
+  .trust {
+    border-top: 1px solid rgba(0,212,255,0.06); border-bottom: 1px solid rgba(0,212,255,0.06);
+    padding: 20px 48px;
+  }
+  .trust-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 48px; }
+  .trust-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--steel);
+  }
+  .trust-item {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--steel); opacity: 0.5;
+  }
+
+  .inventory { padding: 96px 48px; }
+  .inv-inner { max-width: 1280px; margin: 0 auto; }
+  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .sec-title { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; }
+  .sec-sub { font-size: 13px; color: var(--steel); margin-top: 4px; }
+  .sec-note {
+    font-size: 12px; color: var(--neon-green); display: flex; align-items: center; gap: 6px;
+    text-shadow: 0 0 8px rgba(0,255,136,0.2);
+  }
+  .sec-note svg { width: 16px; height: 16px; }
+
+  .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .car-card {
+    background: var(--surface); border: 1px solid rgba(0,212,255,0.06);
+    overflow: hidden; transition: all 0.35s; position: relative;
+  }
+  .car-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .car-card:hover::before { opacity: 1; }
+  .car-card:hover {
+    border-color: rgba(0,212,255,0.15);
+    box-shadow: 0 0 40px rgba(0,212,255,0.06);
+    transform: translateY(-4px);
+  }
+  .car-card-img {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, var(--raised), var(--surface)); position: relative;
+  }
+  .car-card-img span { font-size: 80px; }
+  .ctag { position: absolute; top: 12px; font-size: 10px; font-weight: 700; padding: 4px 12px; text-transform: uppercase; letter-spacing: 1px; z-index: 1; }
+  .ctag-left { left: 12px; background: var(--neon-pink); color: var(--abyss); box-shadow: 0 0 12px rgba(255,45,149,0.3); }
+  .ctag-right { right: 12px; background: rgba(0,212,255,0.1); color: var(--neon-blue); border: 1px solid rgba(0,212,255,0.2); }
+  .car-card-body { padding: 24px; }
+  .car-card-body h3 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .car-card-body .meta { font-size: 11px; color: var(--steel); font-family: 'JetBrains Mono', monospace; }
+  .car-card-body .price {
+    font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700;
+    color: var(--neon-blue); text-shadow: 0 0 12px rgba(0,212,255,0.2);
+    margin: 12px 0 2px;
+  }
+  .car-card-body .est { font-size: 11px; color: var(--steel); margin-bottom: 16px; }
+  .car-card-body .desc { font-size: 13px; color: var(--silver); line-height: 1.6; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .cspecs { display: flex; gap: 6px; margin-bottom: 20px; }
+  .cspec {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500; color: var(--silver);
+    background: var(--raised); border: 1px solid rgba(0,212,255,0.06);
+    padding: 4px 10px;
+  }
+  .cactions { display: flex; gap: 10px; }
+  .cbtn {
+    flex: 1; text-align: center; font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px; font-weight: 700; padding: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    text-decoration: none; border: none; cursor: pointer; transition: all 0.25s;
+  }
+  .cbtn-ghost { background: var(--raised); color: var(--light); border: 1px solid rgba(0,212,255,0.08); }
+  .cbtn-ghost:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+  .cbtn-neon {
+    background: var(--neon-blue); color: var(--abyss);
+    box-shadow: 0 0 16px rgba(0,212,255,0.2);
+  }
+  .cbtn-neon:hover { box-shadow: 0 0 24px rgba(0,212,255,0.4); }
+
+  .how { padding: 96px 48px; border-top: 1px solid rgba(0,212,255,0.06); border-bottom: 1px solid rgba(0,212,255,0.06); }
+  .how-inner { max-width: 960px; margin: 0 auto; }
+  .how-header { text-align: center; margin-bottom: 64px; }
+  .how-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--neon-green); text-shadow: 0 0 8px rgba(0,255,136,0.3); margin-bottom: 12px;
+  }
+  .how-title { font-size: 32px; font-weight: 700; }
+  .how-sub { font-size: 14px; color: var(--steel); margin-top: 8px; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .how-card {
+    text-align: center; padding: 40px 28px; background: var(--surface);
+    border: 1px solid rgba(0,212,255,0.06); transition: all 0.35s; position: relative;
+  }
+  .how-card:hover { border-color: rgba(0,212,255,0.15); }
+  .how-card::before {
+    content: ''; position: absolute; top: 0; left: 20%; right: 20%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .how-card:hover::before { opacity: 1; }
+  .how-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 40px; font-weight: 700;
+    color: var(--neon-blue); opacity: 0.15; margin-bottom: 16px;
+  }
+  .how-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .how-card p { font-size: 13px; color: var(--silver); line-height: 1.6; }
+
+  .features { padding: 96px 48px; }
+  .feat-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .feat-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--neon-pink); text-shadow: 0 0 8px rgba(255,45,149,0.3); margin-bottom: 12px;
+  }
+  .feat-title { font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+  .feat-desc { font-size: 15px; color: var(--silver); line-height: 1.7; margin-bottom: 36px; }
+  .feat-list { display: flex; flex-direction: column; gap: 16px; }
+  .feat-item {
+    display: flex; gap: 14px; padding: 16px;
+    background: var(--surface); border: 1px solid rgba(0,212,255,0.06);
+    transition: border-color 0.3s;
+  }
+  .feat-item:hover { border-color: rgba(0,212,255,0.15); }
+  .feat-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(0,212,255,0.1);
+  }
+  .feat-icon svg { width: 18px; height: 18px; }
+  .feat-icon-1 { color: var(--neon-green); background: rgba(0,255,136,0.05); }
+  .feat-icon-2 { color: var(--neon-blue); background: rgba(0,212,255,0.05); }
+  .feat-icon-3 { color: var(--neon-purple); background: rgba(180,74,255,0.05); }
+  .feat-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .feat-item p { font-size: 12px; color: var(--steel); line-height: 1.5; }
+
+  .chat-card {
+    background: var(--surface); border: 1px solid rgba(0,212,255,0.08);
+    overflow: hidden; max-width: 380px; margin: 0 auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4); position: relative;
+  }
+  .chat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  }
+  .chat-head {
+    padding: 18px 22px; border-bottom: 1px solid rgba(0,212,255,0.06);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-av {
+    width: 36px; height: 36px;
+    background: var(--neon-blue); display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 16px rgba(0,212,255,0.3);
+  }
+  .chat-av svg { width: 18px; height: 18px; color: var(--abyss); }
+  .chat-n { font-size: 13px; font-weight: 700; }
+  .chat-s { font-size: 10px; color: var(--neon-green); font-family: 'JetBrains Mono', monospace; text-shadow: 0 0 8px rgba(0,255,136,0.3); }
+  .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-bbl { max-width: 82%; padding: 10px 14px; font-size: 13px; line-height: 1.55; }
+  .chat-bbl-u { background: var(--raised); color: var(--silver); align-self: flex-start; }
+  .chat-bbl-a {
+    background: var(--neon-blue); color: var(--abyss); font-weight: 500;
+    align-self: flex-end; box-shadow: 0 0 12px rgba(0,212,255,0.15);
+  }
+  .chat-inp {
+    padding: 14px 22px; border-top: 1px solid rgba(0,212,255,0.06);
+    display: flex; gap: 8px;
+  }
+  .chat-field {
+    flex: 1; height: 38px; background: var(--raised); border: 1px solid rgba(0,212,255,0.08);
+    padding: 0 12px; font-size: 12px; color: var(--steel); display: flex; align-items: center;
+  }
+  .chat-send {
+    width: 38px; height: 38px; background: var(--neon-blue);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 12px rgba(0,212,255,0.3);
+  }
+  .chat-send svg { width: 14px; height: 14px; color: var(--abyss); }
+
+  .cta {
+    padding: 96px 48px; text-align: center; position: relative; overflow: hidden;
+    border-top: 1px solid rgba(0,212,255,0.06);
+  }
+  .cta::before {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 600px; height: 300px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,212,255,0.06), transparent 60%);
+    transform: translate(-50%, -50%);
+  }
+  .cta-inner { position: relative; z-index: 1; }
+  .cta h2 { font-size: 40px; font-weight: 700; margin-bottom: 12px; }
+  .cta p { font-size: 15px; color: var(--steel); margin-bottom: 36px; }
+  .cta-btn {
+    font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700;
+    background: var(--neon-blue); color: var(--abyss); padding: 16px 40px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+    border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+    box-shadow: 0 0 24px rgba(0,212,255,0.3); transition: all 0.3s;
+  }
+  .cta-btn:hover { box-shadow: 0 0 48px rgba(0,212,255,0.5); transform: translateY(-2px); }
+  .cta-btn svg { width: 18px; height: 18px; }
+  .cta-demo { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--steel); margin-top: 20px; opacity: 0.5; }
+
+  footer {
+    padding: 48px; border-top: 1px solid rgba(0,212,255,0.06);
+  }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { display: flex; align-items: center; gap: 10px; }
+  .footer-logo {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700;
+    color: var(--neon-blue); text-shadow: 0 0 8px rgba(0,212,255,0.3);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .footer-text { font-size: 11px; color: var(--steel); opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-text">Carvana</span>
+      <span class="logo-badge">AI</span>
+    </a>
+    <div class="nav-right">
+      <a href="#" class="nav-link">Sign in</a>
+      <a href="#" class="nav-cta">Get Started Free</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">AI-Powered Onboarding</div>
+      <h1>Buy your next car,<br><span class="neon">guided by AI</span></h1>
+      <p class="hero-sub">No dealership. No stress. AI walks you through financing, scans your documents instantly, and delivers to your door.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-neon btn-neon-blue">Get Started Free <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        <a href="#" class="btn-neon btn-neon-ghost">Sign in</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-val">&lt; 30 min</div><div class="stat-lbl">Full application</div></div>
+        <div><div class="stat-val">3 sec</div><div class="stat-lbl">Document scan</div></div>
+        <div><div class="stat-val">$0</div><div class="stat-lbl">Credit impact</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-car">
+        <div class="hero-car-visual"><span>🚗</span></div>
+        <div class="hero-car-info">
+          <div><div class="hero-car-name">2024 Tesla Model 3</div><div class="hero-car-meta">$35,990 &middot; 12,500 mi</div></div>
+          <span class="hero-car-badge">Featured</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust"><div class="trust-inner">
+  <span class="trust-label">Powered by</span>
+  <span class="trust-item">Ruby on Rails</span><span class="trust-item">Claude AI</span>
+  <span class="trust-item">AWS Textract</span><span class="trust-item">PostgreSQL</span><span class="trust-item">Three.js</span>
+</div></div>
+
+<section class="inventory"><div class="inv-inner">
+  <div class="sec-head">
+    <div><h2 class="sec-title">Available Vehicles</h2><p class="sec-sub">6 vehicles ready for purchase</p></div>
+    <div class="sec-note"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>100-day return policy</div>
+  </div>
+  <div class="car-grid">
+    <div class="car-card">
+      <div class="car-card-img"><span>🚗</span><span class="ctag ctag-left">Featured</span><span class="ctag ctag-right">Red</span></div>
+      <div class="car-card-body">
+        <h3>2024 Tesla Model 3</h3><p class="meta">12,500 mi // TM3-001</p>
+        <div class="price">$35,990</div><div class="est">Est. $647/mo with financing</div>
+        <p class="desc">Long Range AWD with autopilot. Pearl white multi-coat exterior, black premium interior.</p>
+        <div class="cspecs"><span class="cspec">2024</span><span class="cspec">Tesla</span><span class="cspec">Red</span></div>
+        <div class="cactions"><a href="#" class="cbtn cbtn-ghost">View Details</a><button class="cbtn cbtn-neon">Start Purchase</button></div>
+      </div>
+    </div>
+    <div class="car-card">
+      <div class="car-card-img"><span>🚙</span><span class="ctag ctag-right">Blue</span></div>
+      <div class="car-card-body">
+        <h3>2023 BMW X5 xDrive40i</h3><p class="meta">18,200 mi // BX5-042</p>
+        <div class="price">$52,400</div><div class="est">Est. $943/mo with financing</div>
+        <p class="desc">Premium luxury SUV with panoramic roof, leather interior, and advanced driver assistance.</p>
+        <div class="cspecs"><span class="cspec">2023</span><span class="cspec">BMW</span><span class="cspec">Blue</span></div>
+        <div class="cactions"><a href="#" class="cbtn cbtn-ghost">View Details</a><button class="cbtn cbtn-neon">Start Purchase</button></div>
+      </div>
+    </div>
+    <div class="car-card">
+      <div class="car-card-img"><span>🏎️</span><span class="ctag ctag-right">Black</span></div>
+      <div class="car-card-body">
+        <h3>2024 Mercedes C300</h3><p class="meta">8,900 mi // MC3-017</p>
+        <div class="price">$44,750</div><div class="est">Est. $805/mo with financing</div>
+        <p class="desc">Turbocharged sedan with AMG Line package, MBUX infotainment, and 64-color ambient lighting.</p>
+        <div class="cspecs"><span class="cspec">2024</span><span class="cspec">Mercedes</span><span class="cspec">Black</span></div>
+        <div class="cactions"><a href="#" class="cbtn cbtn-ghost">View Details</a><button class="cbtn cbtn-neon">Start Purchase</button></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="how"><div class="how-inner">
+  <div class="how-header">
+    <div class="how-badge">// Simple Process</div>
+    <h2 class="how-title">How it works</h2>
+    <p class="how-sub">Three steps. Under 30 minutes. No dealership visit required.</p>
+  </div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <h3>AI Guides You</h3>
+      <p>Ask questions about financing, trade-ins, or terms. Your AI assistant explains everything in plain English.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <h3>Scan Documents</h3>
+      <p>Point your camera at your license or pay stub. OCR extracts your data automatically in seconds.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <h3>Get Your Keys</h3>
+      <p>Complete your application in under 30 minutes. We deliver straight to your door.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="features"><div class="feat-inner">
+  <div>
+    <div class="feat-badge">// AI Technology</div>
+    <h2 class="feat-title">Powered by Claude AI &<br>AWS Textract</h2>
+    <p class="feat-desc">Our AI chatbot understands your context at every step. Ask about APR, GAP insurance, or trade-in values and get clear, honest answers instantly.</p>
+    <div class="feat-list">
+      <div class="feat-item">
+        <div class="feat-icon feat-icon-1"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div><h4>Context-Aware Chatbot</h4><p>Knows your vehicle, step, and application data. No repeating yourself.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon feat-icon-2"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5z"/></svg></div>
+        <div><h4>Instant OCR Scanning</h4><p>Snap a photo of your license, pay stub, or insurance. Fields auto-populate.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon feat-icon-3"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008z"/></svg></div>
+        <div><h4>Interactive Loan Visualizer</h4><p>See exactly what you'll pay monthly. Adjust terms and down payment in real time.</p></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="chat-card">
+      <div class="chat-head">
+        <div class="chat-av"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg></div>
+        <div><div class="chat-n">Carvana AI</div><div class="chat-s">// online</div></div>
+      </div>
+      <div class="chat-body">
+        <div class="chat-bbl chat-bbl-u">What's the difference between APR and interest rate?</div>
+        <div class="chat-bbl chat-bbl-a"><strong>APR</strong> includes both the interest rate and fees — the true cost of borrowing.</div>
+        <div class="chat-bbl chat-bbl-u">Will this check hurt my credit score?</div>
+        <div class="chat-bbl chat-bbl-a">Not at all! This is a <strong>soft pull</strong> — no impact on your credit score.</div>
+      </div>
+      <div class="chat-inp">
+        <div class="chat-field">Ask anything about financing...</div>
+        <div class="chat-send"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta"><div class="cta-inner">
+  <h2>Ready to get started?</h2>
+  <p>Browse our inventory, get pre-qualified in minutes, and have your car delivered to your door.</p>
+  <a href="#" class="cta-btn">Create Account <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+  <p class="cta-demo">// demo@carvana.com / demo1234</p>
+</div></section>
+
+<footer><div class="footer-inner">
+  <div class="footer-left"><span class="footer-logo">Carvana_AI</span></div>
+  <span class="footer-text">Demo prototype for Gauntlet AI // demo@carvana.com / demo1234</span>
+</div></footer>
+
+</body>
+</html>

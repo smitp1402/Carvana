@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carvana AI - Dark & Premium Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #08090E;
+    --obsidian: #0E1018;
+    --onyx: #151720;
+    --charcoal: #1C1F2E;
+    --slate: #2A2D40;
+    --steel: #6B7194;
+    --silver: #9BA0BE;
+    --pearl: #E4E6F0;
+    --glow: #6366F1;
+    --glow-bright: #818CF8;
+    --glow-dim: rgba(99,102,241,0.15);
+    --cyan: #22D3EE;
+    --emerald: #34D399;
+    --glass: rgba(14,16,24,0.7);
+    --glass-border: rgba(255,255,255,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--void); color: var(--pearl); -webkit-font-smoothing: antialiased; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,9,14,0.8); backdrop-filter: saturate(180%) blur(24px);
+    border-bottom: 1px solid var(--glass-border); padding: 0 48px;
+  }
+  .nav-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--glow), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 24px rgba(99,102,241,0.4);
+  }
+  .logo-icon svg { width: 20px; height: 20px; color: #fff; }
+  .logo-text { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .logo-badge {
+    font-size: 10px; font-weight: 700; background: var(--glow-dim); color: var(--glow-bright);
+    padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(99,102,241,0.2);
+  }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-link { font-size: 14px; color: var(--steel); text-decoration: none; padding: 8px 16px; transition: color 0.2s; }
+  .nav-link:hover { color: var(--pearl); }
+  .nav-cta {
+    font-size: 14px; font-weight: 600; color: #fff;
+    background: linear-gradient(135deg, var(--glow), var(--cyan));
+    padding: 10px 24px; border-radius: 12px; text-decoration: none;
+    box-shadow: 0 0 20px rgba(99,102,241,0.3); transition: all 0.25s;
+  }
+  .nav-cta:hover { box-shadow: 0 0 32px rgba(99,102,241,0.5); transform: translateY(-1px); }
+
+  .hero {
+    padding: 100px 48px 120px; position: relative; overflow: hidden;
+    background: radial-gradient(ellipse at 30% 0%, rgba(99,102,241,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 100%, rgba(34,211,238,0.06) 0%, transparent 50%),
+                var(--void);
+  }
+  .hero-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--onyx); border: 1px solid var(--glass-border);
+    border-radius: 100px; padding: 6px 18px 6px 8px; margin-bottom: 28px;
+  }
+  .hero-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); box-shadow: 0 0 8px rgba(52,211,153,0.5); }
+  .hero-pill span { font-size: 12px; font-weight: 600; color: var(--silver); }
+  .hero h1 {
+    font-size: 60px; font-weight: 800; line-height: 1.05;
+    letter-spacing: -2px; margin-bottom: 20px; color: #fff;
+  }
+  .hero .glow-text {
+    background: linear-gradient(135deg, var(--glow-bright), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-sub { font-size: 18px; line-height: 1.65; color: var(--steel); max-width: 440px; margin-bottom: 40px; }
+  .hero-actions { display: flex; gap: 12px; margin-bottom: 48px; }
+  .btn-glow {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+    padding: 16px 36px; border-radius: 14px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.3s; border: none; cursor: pointer;
+  }
+  .btn-glow-primary {
+    background: linear-gradient(135deg, var(--glow), var(--cyan));
+    color: #fff; box-shadow: 0 8px 32px rgba(99,102,241,0.35), 0 0 0 1px rgba(255,255,255,0.1) inset;
+  }
+  .btn-glow-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 48px rgba(99,102,241,0.5), 0 0 0 1px rgba(255,255,255,0.15) inset; }
+  .btn-glow-ghost {
+    background: var(--onyx); color: var(--pearl); border: 1px solid var(--glass-border);
+  }
+  .btn-glow-ghost:hover { border-color: var(--slate); background: var(--charcoal); }
+  .btn-glow svg { width: 18px; height: 18px; }
+
+  .hero-stats { display: flex; gap: 40px; }
+  .stat-val {
+    font-size: 30px; font-weight: 800; letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--glow-bright), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-lbl { font-size: 12px; color: var(--steel); margin-top: 2px; }
+
+  .hero-car {
+    background: var(--onyx); border: 1px solid var(--glass-border);
+    border-radius: 24px; overflow: hidden; position: relative;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03) inset;
+  }
+  .hero-car-visual {
+    height: 320px; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at 50% 100%, rgba(99,102,241,0.1), transparent 60%);
+    position: relative;
+  }
+  .hero-car-visual span { font-size: 120px; filter: drop-shadow(0 0 40px rgba(99,102,241,0.3)); }
+  .hero-car-info {
+    padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--glass-border); background: rgba(255,255,255,0.02);
+  }
+  .hero-car-name { font-weight: 700; color: #fff; font-size: 16px; }
+  .hero-car-meta { font-size: 13px; color: var(--steel); margin-top: 2px; }
+  .hero-car-badge {
+    background: var(--glow-dim); color: var(--glow-bright);
+    font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 8px;
+    border: 1px solid rgba(99,102,241,0.2);
+  }
+  /* Glow ring */
+  .hero-car::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 24px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.3), transparent, rgba(34,211,238,0.2));
+    z-index: -1;
+  }
+
+  .trust {
+    border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);
+    padding: 20px 48px; background: var(--obsidian);
+  }
+  .trust-inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 48px; }
+  .trust-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--slate); }
+  .trust-item { font-size: 13px; font-weight: 500; color: var(--slate); }
+
+  .inventory { padding: 96px 48px; }
+  .inventory-inner { max-width: 1280px; margin: 0 auto; }
+  .sec-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .sec-title { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .sec-sub { font-size: 14px; color: var(--steel); margin-top: 4px; }
+  .sec-badge { font-size: 12px; color: var(--emerald); display: flex; align-items: center; gap: 6px; }
+  .sec-badge svg { width: 16px; height: 16px; }
+
+  .car-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .car-card {
+    background: var(--onyx); border: 1px solid var(--glass-border); border-radius: 20px;
+    overflow: hidden; transition: all 0.35s;
+  }
+  .car-card:hover {
+    border-color: rgba(99,102,241,0.3);
+    box-shadow: 0 16px 48px rgba(99,102,241,0.1), 0 0 0 1px rgba(99,102,241,0.1);
+    transform: translateY(-4px);
+  }
+  .car-card-img {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, var(--charcoal), var(--onyx)); position: relative;
+  }
+  .car-card-img span { font-size: 80px; }
+  .card-tag {
+    position: absolute; top: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 6px; letter-spacing: 0.5px;
+  }
+  .card-tag-left { left: 12px; background: linear-gradient(135deg, var(--glow), var(--cyan)); color: #fff; }
+  .card-tag-right { right: 12px; background: var(--charcoal); border: 1px solid var(--glass-border); color: var(--silver); }
+  .car-card-body { padding: 24px; }
+  .car-card-body h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .car-card-body .meta { font-size: 12px; color: var(--steel); }
+  .car-card-body .price { font-size: 26px; font-weight: 800; color: #fff; margin: 12px 0 2px; letter-spacing: -0.5px; }
+  .car-card-body .est { font-size: 12px; color: var(--steel); margin-bottom: 16px; }
+  .car-card-body .desc { font-size: 13px; color: var(--steel); line-height: 1.6; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .card-specs { display: flex; gap: 6px; margin-bottom: 20px; }
+  .card-spec { font-size: 11px; font-weight: 600; color: var(--silver); background: var(--charcoal); border: 1px solid var(--glass-border); padding: 4px 10px; border-radius: 6px; }
+  .card-actions { display: flex; gap: 10px; }
+  .card-btn {
+    flex: 1; text-align: center; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px; font-weight: 600; padding: 12px; border-radius: 10px;
+    text-decoration: none; border: none; cursor: pointer; transition: all 0.25s;
+  }
+  .card-btn-ghost { background: var(--charcoal); color: var(--pearl); border: 1px solid var(--glass-border); }
+  .card-btn-ghost:hover { border-color: var(--slate); }
+  .card-btn-glow { background: linear-gradient(135deg, var(--glow), var(--cyan)); color: #fff; box-shadow: 0 4px 16px rgba(99,102,241,0.25); }
+  .card-btn-glow:hover { box-shadow: 0 8px 24px rgba(99,102,241,0.4); transform: translateY(-1px); }
+
+  .how { padding: 96px 48px; background: var(--obsidian); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+  .how-inner { max-width: 960px; margin: 0 auto; }
+  .how-header { text-align: center; margin-bottom: 64px; }
+  .how-badge { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--glow-bright); margin-bottom: 12px; }
+  .how-title { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+  .how-sub { font-size: 15px; color: var(--steel); margin-top: 8px; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .how-card {
+    text-align: center; padding: 40px 28px; border-radius: 20px;
+    background: var(--onyx); border: 1px solid var(--glass-border);
+    transition: all 0.35s; position: relative;
+  }
+  .how-card:hover {
+    border-color: rgba(99,102,241,0.2);
+    box-shadow: 0 0 48px rgba(99,102,241,0.08);
+  }
+  .how-card::after {
+    content: ''; position: absolute; top: 0; left: 20%; right: 20%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glow-bright), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .how-card:hover::after { opacity: 1; }
+  .how-icon {
+    width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--glow-dim); border: 1px solid rgba(99,102,241,0.15);
+  }
+  .how-icon svg { width: 24px; height: 24px; color: var(--glow-bright); }
+  .how-step { font-size: 11px; font-weight: 700; color: var(--steel); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .how-card h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .how-card p { font-size: 13px; color: var(--steel); line-height: 1.6; }
+
+  .features { padding: 96px 48px; }
+  .features-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .features-badge { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--glow-bright); margin-bottom: 12px; }
+  .features-title { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 16px; }
+  .features-desc { font-size: 15px; color: var(--steel); line-height: 1.7; margin-bottom: 36px; }
+  .feat-list { display: flex; flex-direction: column; gap: 20px; }
+  .feat-item { display: flex; gap: 14px; }
+  .feat-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid var(--glass-border);
+  }
+  .feat-icon svg { width: 20px; height: 20px; }
+  .feat-icon-1 { background: rgba(52,211,153,0.1); color: var(--emerald); }
+  .feat-icon-2 { background: var(--glow-dim); color: var(--glow-bright); }
+  .feat-icon-3 { background: rgba(34,211,238,0.1); color: var(--cyan); }
+  .feat-item h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+  .feat-item p { font-size: 13px; color: var(--steel); line-height: 1.5; }
+
+  .chat-card {
+    background: var(--onyx); border: 1px solid var(--glass-border); border-radius: 20px;
+    overflow: hidden; max-width: 380px; margin: 0 auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+  }
+  .chat-head {
+    padding: 18px 22px; border-bottom: 1px solid var(--glass-border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-av {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--glow), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 16px rgba(99,102,241,0.3);
+  }
+  .chat-av svg { width: 18px; height: 18px; color: #fff; }
+  .chat-n { font-size: 13px; font-weight: 700; color: #fff; }
+  .chat-s { font-size: 11px; color: var(--emerald); }
+  .chat-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-bbl { max-width: 82%; padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5; }
+  .chat-bbl-u { background: var(--charcoal); color: var(--silver); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .chat-bbl-a {
+    background: linear-gradient(135deg, var(--glow), var(--cyan)); color: #fff;
+    align-self: flex-end; border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.2);
+  }
+  .chat-inp {
+    padding: 14px 22px; border-top: 1px solid var(--glass-border);
+    display: flex; gap: 8px;
+  }
+  .chat-field { flex: 1; height: 38px; background: var(--charcoal); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0 12px; font-size: 12px; color: var(--steel); display: flex; align-items: center; }
+  .chat-send {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--glow), var(--cyan));
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 16px rgba(99,102,241,0.3);
+  }
+  .chat-send svg { width: 14px; height: 14px; color: #fff; }
+
+  .cta {
+    padding: 96px 48px; text-align: center; position: relative; overflow: hidden;
+    background: var(--obsidian); border-top: 1px solid var(--glass-border);
+  }
+  .cta::before {
+    content: ''; position: absolute; top: 50%; left: 50%; width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(99,102,241,0.08), transparent 60%);
+    transform: translate(-50%, -50%);
+  }
+  .cta-inner { position: relative; z-index: 1; }
+  .cta h2 { font-size: 40px; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 12px; }
+  .cta p { font-size: 16px; color: var(--steel); margin-bottom: 36px; }
+  .cta-btn {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700;
+    background: linear-gradient(135deg, var(--glow), var(--cyan)); color: #fff;
+    padding: 16px 40px; border-radius: 14px; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px; border: none; cursor: pointer;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.35); transition: all 0.3s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 48px rgba(99,102,241,0.5); }
+  .cta-btn svg { width: 18px; height: 18px; }
+  .cta-demo { font-size: 12px; color: var(--slate); margin-top: 20px; }
+
+  footer {
+    padding: 48px; border-top: 1px solid var(--glass-border);
+  }
+  .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { display: flex; align-items: center; gap: 8px; }
+  .footer-icon { width: 24px; height: 24px; border-radius: 6px; background: linear-gradient(135deg, var(--glow), var(--cyan)); display: flex; align-items: center; justify-content: center; }
+  .footer-icon svg { width: 12px; height: 12px; color: #fff; }
+  .footer-text { font-size: 12px; color: var(--slate); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg></div>
+      <span class="logo-text">Carvana</span>
+      <span class="logo-badge">AI</span>
+    </a>
+    <div class="nav-right">
+      <a href="#" class="nav-link">Sign in</a>
+      <a href="#" class="nav-cta">Get Started Free</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-pill"><div class="hero-pill-dot"></div><span>AI-Powered Onboarding</span></div>
+      <h1>Buy your next car,<br><span class="glow-text">guided by AI</span></h1>
+      <p class="hero-sub">No dealership. No stress. AI walks you through financing, scans your documents instantly, and delivers to your door.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-glow btn-glow-primary">Get Started Free <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        <a href="#" class="btn-glow btn-glow-ghost">Sign in</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-val">&lt; 30 min</div><div class="stat-lbl">Full application</div></div>
+        <div><div class="stat-val">3 sec</div><div class="stat-lbl">Document scan</div></div>
+        <div><div class="stat-val">$0</div><div class="stat-lbl">Credit impact</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-car">
+        <div class="hero-car-visual"><span>🚗</span></div>
+        <div class="hero-car-info">
+          <div><div class="hero-car-name">2024 Tesla Model 3</div><div class="hero-car-meta">$35,990 &middot; 12,500 mi</div></div>
+          <span class="hero-car-badge">Featured</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust"><div class="trust-inner">
+  <span class="trust-label">Powered by</span>
+  <span class="trust-item">Ruby on Rails</span><span class="trust-item">Claude AI</span>
+  <span class="trust-item">AWS Textract</span><span class="trust-item">PostgreSQL</span><span class="trust-item">Three.js</span>
+</div></div>
+
+<section class="inventory"><div class="inventory-inner">
+  <div class="sec-header">
+    <div><h2 class="sec-title">Available Vehicles</h2><p class="sec-sub">6 vehicles ready for purchase</p></div>
+    <div class="sec-badge"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>All vehicles include 100-day return policy</div>
+  </div>
+  <div class="car-grid">
+    <div class="car-card">
+      <div class="car-card-img"><span>🚗</span><span class="card-tag card-tag-left">Featured</span><span class="card-tag card-tag-right">Red</span></div>
+      <div class="car-card-body">
+        <h3>2024 Tesla Model 3</h3><p class="meta">12,500 mi &middot; Stock #TM3-001</p>
+        <div class="price">$35,990</div><div class="est">Est. $647/mo with financing</div>
+        <p class="desc">Long Range AWD with autopilot. Pearl white multi-coat exterior, black premium interior.</p>
+        <div class="card-specs"><span class="card-spec">2024</span><span class="card-spec">Tesla</span><span class="card-spec">Red</span></div>
+        <div class="card-actions"><a href="#" class="card-btn card-btn-ghost">View Details</a><button class="card-btn card-btn-glow">Start Purchase</button></div>
+      </div>
+    </div>
+    <div class="car-card">
+      <div class="car-card-img"><span>🚙</span><span class="card-tag card-tag-right">Blue</span></div>
+      <div class="car-card-body">
+        <h3>2023 BMW X5 xDrive40i</h3><p class="meta">18,200 mi &middot; Stock #BX5-042</p>
+        <div class="price">$52,400</div><div class="est">Est. $943/mo with financing</div>
+        <p class="desc">Premium luxury SUV with panoramic roof, leather interior, and advanced driver assistance.</p>
+        <div class="card-specs"><span class="card-spec">2023</span><span class="card-spec">BMW</span><span class="card-spec">Blue</span></div>
+        <div class="card-actions"><a href="#" class="card-btn card-btn-ghost">View Details</a><button class="card-btn card-btn-glow">Start Purchase</button></div>
+      </div>
+    </div>
+    <div class="car-card">
+      <div class="car-card-img"><span>🏎️</span><span class="card-tag card-tag-right">Black</span></div>
+      <div class="car-card-body">
+        <h3>2024 Mercedes C300</h3><p class="meta">8,900 mi &middot; Stock #MC3-017</p>
+        <div class="price">$44,750</div><div class="est">Est. $805/mo with financing</div>
+        <p class="desc">Turbocharged sedan with AMG Line package, MBUX infotainment, and 64-color ambient lighting.</p>
+        <div class="card-specs"><span class="card-spec">2024</span><span class="card-spec">Mercedes</span><span class="card-spec">Black</span></div>
+        <div class="card-actions"><a href="#" class="card-btn card-btn-ghost">View Details</a><button class="card-btn card-btn-glow">Start Purchase</button></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="how"><div class="how-inner">
+  <div class="how-header">
+    <div class="how-badge">Simple Process</div>
+    <h2 class="how-title">How it works</h2>
+    <p class="how-sub">Three steps. Under 30 minutes. No dealership visit required.</p>
+  </div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg></div>
+      <div class="how-step">Step 1</div><h3>AI Guides You</h3>
+      <p>Ask questions about financing, trade-ins, or terms. Your AI assistant explains everything in plain English.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z"/></svg></div>
+      <div class="how-step">Step 2</div><h3>Scan Documents</h3>
+      <p>Point your camera at your license or pay stub. OCR extracts your data automatically in seconds.</p>
+    </div>
+    <div class="how-card">
+      <div class="how-icon"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/></svg></div>
+      <div class="how-step">Step 3</div><h3>Get Your Keys</h3>
+      <p>Complete your application in under 30 minutes. We deliver straight to your door.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="features"><div class="features-inner">
+  <div>
+    <div class="features-badge">AI Technology</div>
+    <h2 class="features-title">Powered by Claude AI &<br>AWS Textract</h2>
+    <p class="features-desc">Our AI chatbot understands your context at every step. Ask about APR, GAP insurance, or trade-in values and get clear, honest answers instantly.</p>
+    <div class="feat-list">
+      <div class="feat-item">
+        <div class="feat-icon feat-icon-1"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div><h4>Context-Aware Chatbot</h4><p>Knows your vehicle, step, and application data. No repeating yourself.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon feat-icon-2"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5z"/></svg></div>
+        <div><h4>Instant OCR Scanning</h4><p>Snap a photo of your license, pay stub, or insurance. Fields auto-populate.</p></div>
+      </div>
+      <div class="feat-item">
+        <div class="feat-icon feat-icon-3"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008z"/></svg></div>
+        <div><h4>Interactive Loan Visualizer</h4><p>See exactly what you'll pay monthly. Adjust terms and down payment in real time.</p></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="chat-card">
+      <div class="chat-head">
+        <div class="chat-av"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg></div>
+        <div><div class="chat-n">Carvana AI Assistant</div><div class="chat-s">Online</div></div>
+      </div>
+      <div class="chat-body">
+        <div class="chat-bbl chat-bbl-u">What's the difference between APR and interest rate?</div>
+        <div class="chat-bbl chat-bbl-a"><strong>APR</strong> includes both the interest rate and fees, so it's the true cost of borrowing.</div>
+        <div class="chat-bbl chat-bbl-u">Will this check hurt my credit score?</div>
+        <div class="chat-bbl chat-bbl-a">Not at all! This is a <strong>soft pull</strong> that won't affect your credit score.</div>
+      </div>
+      <div class="chat-inp">
+        <div class="chat-field">Ask anything about financing...</div>
+        <div class="chat-send"><svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="cta"><div class="cta-inner">
+  <h2>Ready to get started?</h2>
+  <p>Browse our inventory, get pre-qualified in minutes, and have your car delivered to your door.</p>
+  <a href="#" class="cta-btn">Create Free Account <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+  <p class="cta-demo">Demo: demo@carvana.com / demo1234</p>
+</div></section>
+
+<footer><div class="footer-inner">
+  <div class="footer-left">
+    <div class="footer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25"/></svg></div>
+    <span class="footer-text">Demo prototype for Gauntlet AI &middot; Built with Rails, Claude AI, and AWS Textract</span>
+  </div>
+  <span class="footer-text">demo@carvana.com / demo1234</span>
+</div></footer>
+
+</body>
+</html>

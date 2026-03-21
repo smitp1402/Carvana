@@ -14,7 +14,7 @@
         <div class="relative bg-neutral-50">
           <%= render "vehicles/car_3d", car_color: @vehicle.hex_color, container_id: "car-detail", height: "h-72 sm:h-96", interactive: true %>
           <% if @vehicle.featured? %>
-            <span class="absolute top-4 left-4 badge text-white px-3 py-1 rounded-lg z-10" style="background: var(--accent);">Featured</span>
+            <span class="absolute top-4 left-4 badge text-white px-3 py-1 rounded-lg z-10" style="background: var(--text-primary);">Featured</span>
           <% end %>
         </div>
       </div>
@@ -78,10 +78,12 @@
           </div>
 
           <% if user_signed_in? %>
-            <%= button_to "Start Purchase", onboarding_applications_path(vehicle_id: @vehicle.id), method: :post,
-                class: "w-full btn-accent py-3.5 rounded-xl text-sm cursor-pointer flex items-center justify-center gap-2" do %>
-              Start Purchase
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+            <%= button_to onboarding_applications_path(vehicle_id: @vehicle.id), method: :post,
+                class: "w-full btn-accent py-3.5 rounded-xl text-sm cursor-pointer" do %>
+              <span class="flex items-center justify-center gap-2">
+                Start Purchase
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+              </span>
             <% end %>
           <% else %>
             <%= link_to new_user_registration_path, class: "w-full btn-accent py-3.5 rounded-xl text-sm inline-flex items-center justify-center gap-2" do %>
@@ -95,8 +97,8 @@
 
         <!-- AI assistant teaser -->
         <div class="card p-5 mt-4 flex items-center gap-4">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background: var(--accent-light);">
-            <svg class="w-5 h-5" style="color: var(--accent);" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background: var(--bg-tertiary);">
+            <svg class="w-5 h-5" style="color: var(--text-muted);" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
           </div>
           <div>
             <p class="text-sm font-semibold">AI Assistant included</p>

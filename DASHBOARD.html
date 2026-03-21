@@ -3,414 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carvana AI Onboarding - Project Dashboard</title>
+<title>Carvana AI Onboarding — Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #0f1117;
-    color: #e1e4eb;
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-  a { color: #60a5fa; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;
+  --text:#e8eaed;--text-sec:#9ca3af;--text-muted:#6b7280;
+  --green:#34d399;--amber:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;
+  --accent-blue:#60a5fa;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0}
+a{color:var(--accent-blue);text-decoration:none}
+a:hover{text-decoration:underline}
 
-  /* Header */
-  .header {
-    background: linear-gradient(135deg, #1a1d27 0%, #1e2235 100%);
-    border-bottom: 1px solid #2a2d3a;
-    padding: 24px 32px;
-  }
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .header-left { display: flex; align-items: center; gap: 16px; }
-  .header-logo {
-    width: 44px; height: 44px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 18px; color: #fff;
-  }
-  .header-title { font-size: 22px; font-weight: 700; color: #fff; }
-  .header-subtitle { font-size: 13px; color: #8b8fa3; margin-top: 2px; }
-  .header-right { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-  .completion-badge {
-    background: linear-gradient(135deg, #059669, #10b981);
-    color: #fff;
-    font-weight: 700;
-    font-size: 14px;
-    padding: 6px 16px;
-    border-radius: 20px;
-  }
-  .status-group { display: flex; align-items: center; gap: 14px; }
-  .status-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12px; color: #8b8fa3;
-  }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .status-dot.checking { background: #fbbf24; animation: pulse 1.5s infinite; }
-  .status-dot.online { background: #34d399; box-shadow: 0 0 6px #34d399; }
-  .status-dot.offline { background: #ef4444; }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+.header{padding:28px 32px 0;max-width:1280px;margin:0 auto}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px}
+.project-info h1{font-size:28px;font-weight:800;letter-spacing:-0.5px}
+.project-info p{color:var(--text-sec);font-size:13px;margin-top:4px;max-width:600px;line-height:1.5}
+.header-right{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 
-  /* Pipeline */
-  .pipeline-section { padding: 20px 32px; }
-  .pipeline-bar {
-    display: flex;
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  .pipeline-step {
-    flex: 1;
-    padding: 14px 16px;
-    text-align: center;
-    position: relative;
-    border-right: 1px solid #2a2d3a;
-  }
-  .pipeline-step:last-child { border-right: none; }
-  .pipeline-step.complete { background: rgba(16, 185, 129, 0.08); }
-  .pipeline-step.active { background: rgba(59, 130, 246, 0.12); }
-  .pipeline-step-label {
-    font-size: 12px; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .pipeline-step.complete .pipeline-step-label { color: #34d399; }
-  .pipeline-step.active .pipeline-step-label { color: #60a5fa; }
-  .pipeline-step-icon { font-size: 16px; margin-bottom: 4px; display: block; }
-  .pipeline-step-status {
-    font-size: 10px; color: #6b7280; margin-top: 2px;
-  }
+.completion-ring{position:relative;width:80px;height:80px}
+.completion-ring svg{transform:rotate(-90deg)}
+.completion-ring circle{fill:none;stroke-width:6}
+.completion-ring .bg{stroke:var(--border)}
+.completion-ring .fg{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+.completion-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px;font-weight:700}
 
-  /* Start command */
-  .start-cmd-section { padding: 0 32px 16px; }
-  .start-cmd-bar {
-    display: flex;
-    align-items: center;
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 8px;
-    padding: 10px 16px;
-    gap: 12px;
-  }
-  .start-cmd-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #6b7280;
-    white-space: nowrap;
-  }
-  .start-cmd-code {
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 13px;
-    color: #a5f3fc;
-    flex: 1;
-  }
-  .copy-btn {
-    background: #2a2d3a;
-    border: 1px solid #3a3d4a;
-    color: #8b8fa3;
-    font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Inter', sans-serif;
-  }
-  .copy-btn:hover { background: #3a3d4a; color: #e1e4eb; }
-  .copy-btn.copied { background: #059669; color: #fff; border-color: #059669; }
+.app-statuses{display:flex;gap:16px;flex-wrap:wrap}
+.app-status{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 14px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--text-muted);flex-shrink:0}
+.status-dot.up{background:var(--green);box-shadow:0 0 8px rgba(52,211,153,.5);animation:pulse 2s infinite}
+.status-dot.down{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
-  /* Tabs */
-  .tabs-section { padding: 0 32px; }
-  .tab-nav {
-    display: flex;
-    gap: 2px;
-    border-bottom: 1px solid #2a2d3a;
-    margin-bottom: 20px;
-  }
-  .tab-btn {
-    background: none;
-    border: none;
-    color: #6b7280;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-  }
-  .tab-btn:hover { color: #e1e4eb; }
-  .tab-btn.active {
-    color: #60a5fa;
-    border-bottom-color: #3b82f6;
-  }
-  .tab-panel { display: none; padding-bottom: 40px; }
-  .tab-panel.active { display: block; }
+#launch-btn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500;transition:border-color .2s}
+#launch-btn:hover{border-color:var(--accent-blue)}
+#launch-btn.running{border-color:var(--green);color:var(--green);cursor:default}
 
-  /* Cards */
-  .card {
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .card-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-  }
-  .card-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 12px;
-  }
-  .badge-complete { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-  .badge-partial { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
-  .badge-pending { background: rgba(107, 114, 128, 0.2); color: #6b7280; }
-  .badge-pass { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-  .badge-degraded { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
-  .badge-deferred { background: rgba(107, 114, 128, 0.2); color: #6b7280; }
-  .badge-missing { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.pipeline-bar{max-width:1280px;margin:24px auto 0;padding:0 32px}
+.pipeline{display:flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 24px;flex-wrap:wrap}
+.pipe-stage{display:flex;align-items:center;gap:8px;flex:1;min-width:120px}
+.pipe-stage .dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+.pipe-stage .dot.done{background:rgba(52,211,153,.15);color:var(--green)}
+.pipe-stage .dot.current{background:rgba(251,191,36,.15);color:var(--amber);animation:pulse 2s infinite}
+.pipe-stage .dot.future{background:var(--border);color:var(--text-muted)}
+.pipe-stage .label{font-size:12px;font-weight:500}
+.pipe-arrow{color:var(--text-muted);font-size:18px;margin:0 4px}
+.stats-row{display:flex;gap:24px;margin-left:auto;flex-wrap:wrap}
+.stat{text-align:center}
+.stat .val{font-size:18px;font-weight:700;color:var(--text)}
+.stat .lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
 
-  /* Progress bars */
-  .progress-bar-bg {
-    width: 100%;
-    height: 6px;
-    background: #2a2d3a;
-    border-radius: 3px;
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 0.6s ease;
-  }
-  .fill-green { background: linear-gradient(90deg, #059669, #34d399); }
-  .fill-blue { background: linear-gradient(90deg, #2563eb, #60a5fa); }
-  .fill-yellow { background: linear-gradient(90deg, #d97706, #fbbf24); }
+.tabs-container{max-width:1280px;margin:24px auto 0;padding:0 32px}
+.tab-bar{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.tab-btn{background:none;border:none;color:var(--text-muted);font-family:inherit;font-size:13px;font-weight:500;padding:10px 20px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;position:relative}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent-blue);border-bottom-color:var(--accent-blue)}
+.tab-btn .badge{position:absolute;top:4px;right:6px;background:var(--accent-blue);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
 
-  /* Checklists */
-  .checklist { list-style: none; }
-  .checklist li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 5px 0;
-    font-size: 13px;
-    color: #b0b4c3;
-  }
-  .check-icon {
-    width: 16px; height: 16px;
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
-    font-size: 10px;
-  }
-  .check-done { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-  .check-miss { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.phase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+.phase-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .2s}
+.phase-card:hover{border-color:var(--text-muted)}
+.phase-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.phase-header h3{font-size:15px;font-weight:600}
+.phase-pct{font-size:13px;font-weight:600;color:var(--green)}
+.progress-track{height:4px;background:var(--border);border-radius:2px;margin-bottom:14px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s ease}
+.task-list{list-style:none}
+.task-list li{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:var(--text-sec);border-bottom:1px solid rgba(42,45,58,.5)}
+.task-list li:last-child{border-bottom:none}
+.chip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+.chip.done{background:rgba(52,211,153,.12);color:var(--green)}
+.chip.in-progress{background:rgba(251,191,36,.12);color:var(--amber)}
+.chip.blocked{background:rgba(248,113,113,.12);color:var(--red)}
+.chip.not-started{background:rgba(107,114,128,.15);color:var(--text-muted)}
+.chip.deviation{background:rgba(167,139,250,.12);color:var(--purple)}
+.phase-timing{font-size:11px;color:var(--text-muted);margin-top:10px;display:flex;gap:12px;align-items:center}
 
-  /* Requirements table */
-  .req-group-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: #8b8fa3;
-    margin: 20px 0 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #2a2d3a;
-  }
-  .req-group-title:first-child { margin-top: 0; }
-  .req-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .req-table th {
-    text-align: left;
-    padding: 8px 10px;
-    color: #6b7280;
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #2a2d3a;
-  }
-  .req-table td {
-    padding: 8px 10px;
-    border-bottom: 1px solid rgba(42, 45, 58, 0.5);
-    color: #b0b4c3;
-  }
-  .req-table tr:last-child td { border-bottom: none; }
-  .req-id { color: #6b7280; font-family: monospace; font-size: 11px; }
+.req-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.req-group{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.req-group h3{font-size:14px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.req-group h3 .priority-dot{width:8px;height:8px;border-radius:50%}
+.req-group .sub{font-size:11px;color:var(--text-muted);margin-bottom:12px}
+.req-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;color:var(--text-sec)}
+.req-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.req-dot.pass{background:var(--green)}
+.req-dot.partial{background:var(--amber)}
+.req-dot.fail{background:var(--red)}
+.req-dot.deferred{background:var(--text-muted)}
 
-  /* Artifacts */
-  .artifact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-  }
-  .artifact-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 13px;
-  }
-  .artifact-icon {
-    width: 32px; height: 32px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-  .artifact-icon.file { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-  .artifact-icon.service { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
-  .artifact-icon.config { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
-  .artifact-icon.view { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-  .artifact-name { font-weight: 500; color: #e1e4eb; }
-  .artifact-path { font-size: 11px; color: #6b7280; font-family: monospace; }
+.artifact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.artifact-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;display:flex;align-items:center;gap:12px}
+.artifact-card .a-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.artifact-card .a-dot.exists{background:var(--green)}
+.artifact-card .a-dot.missing{background:var(--text-muted)}
+.artifact-card .a-info{flex:1}
+.artifact-card .a-name{font-size:13px;font-weight:600}
+.artifact-card .a-status{font-size:11px;color:var(--text-muted)}
 
-  /* Activity feed */
-  .activity-feed { }
-  .activity-phase {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 24px;
-  }
-  .activity-phase::before {
-    content: '';
-    position: absolute;
-    left: 7px;
-    top: 24px;
-    bottom: -12px;
-    width: 2px;
-    background: #2a2d3a;
-  }
-  .activity-phase:last-child::before { display: none; }
-  .activity-dot {
-    position: absolute;
-    left: 0;
-    top: 4px;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: #1a1d27;
-    border: 2px solid #34d399;
-  }
-  .activity-phase-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-  .activity-phase-date {
-    font-size: 11px;
-    color: #6b7280;
-    margin-bottom: 8px;
-  }
-  .activity-details {
-    font-size: 12px;
-    color: #8b8fa3;
-    line-height: 1.7;
-  }
-  .activity-details li {
-    list-style: none;
-    padding: 2px 0;
-  }
-  .activity-details li::before {
-    content: "\2022";
-    color: #4b5563;
-    margin-right: 8px;
-  }
+.activity-feed{max-width:700px}
+.activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(42,45,58,.5)}
+.activity-item:last-child{border-bottom:none}
+.activity-dot{width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.activity-dot.completion{background:var(--green)}
+.activity-dot.pipeline{background:var(--blue)}
+.activity-dot.deviation{background:var(--purple)}
+.activity-dot.issue{background:var(--red)}
+.activity-dot.in-progress{background:var(--amber)}
+.activity-content{flex:1}
+.activity-title{font-size:13px;font-weight:500}
+.activity-desc{font-size:11px;color:var(--text-muted);margin-top:2px}
 
-  /* Stats row */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .stat-card {
-    background: #1a1d27;
-    border: 1px solid #2a2d3a;
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-  }
-  .stat-value {
-    font-size: 28px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #60a5fa, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .stat-label {
-    font-size: 11px;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 2px;
-  }
-
-  /* NFR section */
-  .nfr-section { margin-top: 24px; }
-
-  /* Tech stack pills */
-  .tech-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-  }
-  .tech-pill {
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 12px;
-    background: rgba(59, 130, 246, 0.1);
-    color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.2);
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .header, .pipeline-section, .start-cmd-section, .tabs-section { padding-left: 16px; padding-right: 16px; }
-    .header-top { flex-direction: column; align-items: flex-start; }
-    .pipeline-bar { flex-direction: column; }
-    .pipeline-step { border-right: none; border-bottom: 1px solid #2a2d3a; }
-    .artifact-grid { grid-template-columns: 1fr; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); }
-  }
+@media(max-width:768px){
+  .header{padding:16px}
+  .pipeline-bar,.tabs-container{padding:0 16px}
+  .header-top{flex-direction:column}
+  .phase-grid,.req-grid,.artifact-grid{grid-template-columns:1fr}
+  .pipeline{flex-direction:column;gap:8px}
+  .pipe-arrow{display:none}
+  .stats-row{margin-left:0;margin-top:12px}
+}
 </style>
 </head>
 <body>
@@ -418,698 +133,441 @@
 <!-- HEADER -->
 <div class="header">
   <div class="header-top">
-    <div class="header-left">
-      <div class="header-logo">C</div>
-      <div>
-        <div class="header-title">Carvana AI Onboarding Enhancement</div>
-        <div class="header-subtitle">Gauntlet AI Hiring Partner Project &middot; 3-Day Sprint &middot; Started 2026-03-19</div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <div class="completion-ring">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle class="bg" cx="40" cy="40" r="34"/>
+          <circle class="fg" cx="40" cy="40" r="34" stroke-dasharray="213.6" stroke-dashoffset="11.9"/>
+        </svg>
+        <div class="completion-pct">94%</div>
+      </div>
+      <div class="project-info">
+        <h1>Carvana AI Onboarding</h1>
+        <p>AI-enhanced car buying onboarding — LLM chatbot, OCR document auto-fill, emotional support content over a 5-step financing flow. 3-day demo prototype for Gauntlet AI hiring partner program.</p>
       </div>
     </div>
     <div class="header-right">
-      <div class="tech-pills">
-        <span class="tech-pill">Rails 8.1</span>
-        <span class="tech-pill">Tailwind CSS 4</span>
-        <span class="tech-pill">Claude API</span>
-        <span class="tech-pill">AWS Textract</span>
-        <span class="tech-pill">SQLite3 / PostgreSQL</span>
-      </div>
-      <div class="completion-badge">95% Complete</div>
-      <div class="status-group">
-        <div class="status-item">
-          <span class="status-dot checking" id="local-dot"></span>
-          <span id="local-label">Local: checking...</span>
+      <div class="app-statuses">
+        <div class="app-status">
+          <div id="local-dot" class="status-dot"></div>
+          <div>
+            <div style="font-weight:600;font-size:13px">Local <span id="local-label" style="font-size:11px"></span></div>
+            <a id="local-link" href="#" target="_blank" style="font-size:11px;color:var(--accent-blue)"></a>
+          </div>
         </div>
-        <div class="status-item">
-          <span class="status-dot checking" id="prod-dot"></span>
-          <span id="prod-label">Prod: checking...</span>
+        <div class="app-status">
+          <div id="prod-dot" class="status-dot"></div>
+          <div>
+            <div style="font-weight:600;font-size:13px">Production <span id="prod-label" style="font-size:11px"></span></div>
+            <a id="prod-link" href="#" target="_blank" style="font-size:11px;color:var(--accent-blue)"></a>
+          </div>
         </div>
       </div>
+      <button id="launch-btn" onclick="copyStartCommand()">Copy Start Command</button>
     </div>
   </div>
 </div>
 
 <!-- PIPELINE -->
-<div class="pipeline-section">
-  <div class="pipeline-bar">
-    <div class="pipeline-step complete">
-      <span class="pipeline-step-icon">&#10003;</span>
-      <div class="pipeline-step-label">Presearch</div>
-      <div class="pipeline-step-status">Complete</div>
-    </div>
-    <div class="pipeline-step complete">
-      <span class="pipeline-step-icon">&#10003;</span>
-      <div class="pipeline-step-label">Implement</div>
-      <div class="pipeline-step-status">5/5 phases done</div>
-    </div>
-    <div class="pipeline-step complete">
-      <span class="pipeline-step-icon">&#10003;</span>
-      <div class="pipeline-step-label">Review</div>
-      <div class="pipeline-step-status">21 pass, 2 partial</div>
-    </div>
-    <div class="pipeline-step complete">
-      <span class="pipeline-step-icon">&#10003;</span>
-      <div class="pipeline-step-label">Test / QA</div>
-      <div class="pipeline-step-status">8/9 smoke tests pass</div>
-    </div>
-    <div class="pipeline-step active">
-      <span class="pipeline-step-icon">&#9654;</span>
-      <div class="pipeline-step-label">Ship</div>
-      <div class="pipeline-step-status">In progress</div>
-    </div>
-  </div>
-</div>
+<div class="pipeline-bar">
+  <div class="pipeline">
+    <div class="pipe-stage"><div class="dot done">&#10003;</div><div class="label">Presearch</div></div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-stage"><div class="dot done">&#10003;</div><div class="label">Implement</div></div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-stage"><div class="dot done">&#10003;</div><div class="label">Review</div></div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-stage"><div class="dot done">&#10003;</div><div class="label">Test/QA</div></div>
+    <div class="pipe-arrow">&#8594;</div>
+    <div class="pipe-stage"><div class="dot current">&#9679;</div><div class="label">Ship</div></div>
 
-<!-- START COMMAND -->
-<div class="start-cmd-section">
-  <div class="start-cmd-bar">
-    <span class="start-cmd-label">Start:</span>
-    <code class="start-cmd-code" id="start-cmd">rails server -p 3001</code>
-    <button class="copy-btn" onclick="copyStartCmd()" id="copy-btn">Copy</button>
-    <a href="http://localhost:3001" target="_blank" style="font-size: 12px; white-space: nowrap;">Open Local</a>
+    <div class="stats-row">
+      <div class="stat"><div class="val">94%</div><div class="lbl">Complete</div></div>
+      <div class="stat"><div class="val">2</div><div class="lbl">Remaining</div></div>
+      <div class="stat"><div class="val">1 day</div><div class="lbl">Elapsed</div></div>
+      <div class="stat"><div class="val">2 days</div><div class="lbl">Left</div></div>
+    </div>
   </div>
 </div>
 
 <!-- TABS -->
-<div class="tabs-section">
-  <div class="tab-nav">
+<div class="tabs-container">
+  <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('phases')">Phases</button>
     <button class="tab-btn" onclick="switchTab('requirements')">Requirements</button>
     <button class="tab-btn" onclick="switchTab('artifacts')">Artifacts</button>
-    <button class="tab-btn" onclick="switchTab('activity')">Activity</button>
+    <button class="tab-btn" onclick="switchTab('activity')">Activity <span class="badge">12</span></button>
   </div>
 
-  <!-- TAB: PHASES -->
-  <div class="tab-panel active" id="tab-phases">
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-value">39/41</div>
-        <div class="stat-label">Deliverables Done</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">5/5</div>
-        <div class="stat-label">Phases Complete</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">8/9</div>
-        <div class="stat-label">Smoke Tests Pass</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">9/10</div>
-        <div class="stat-label">Success Criteria Met</div>
-      </div>
-    </div>
+  <!-- PHASES TAB -->
+  <div id="tab-phases" class="tab-panel active">
+    <div class="phase-grid">
 
-    <!-- Phase 1 -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Phase 1: Foundation</div>
-        <span class="card-badge badge-complete">8/8 Complete</span>
+      <div class="phase-card">
+        <div class="phase-header"><h3>Phase 1: Foundation</h3><span class="phase-pct">100%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        <ul class="task-list">
+          <li><span class="chip done">Done</span> Rails 8.1 app with PostgreSQL, Tailwind, ViewComponent, Devise</li>
+          <li><span class="chip done">Done</span> Vehicle model + seed data (3 cars)</li>
+          <li><span class="chip done">Done</span> User model + Devise auth</li>
+          <li><span class="chip done">Done</span> OnboardingApplication model + state machine</li>
+          <li><span class="chip done">Done</span> Vehicles index page</li>
+          <li><span class="chip done">Done</span> 5-step onboarding flow scaffold</li>
+          <li><span class="chip done">Done</span> Persistent vehicle summary card</li>
+          <li><span class="chip done">Done</span> Progress indicator component</li>
+        </ul>
+        <div class="phase-timing">
+          <span>Est: 4h (Day 1 AM)</span>
+          <span>Completed: 2026-03-20</span>
+          <span class="chip deviation" style="margin-left:auto">3 deviations</span>
+        </div>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill fill-green" style="width:100%"></div></div>
-      <ul class="checklist">
-        <li><span class="check-icon check-done">&#10003;</span> Rails 8.1 app with PostgreSQL, Tailwind, ViewComponent, Devise</li>
-        <li><span class="check-icon check-done">&#10003;</span> Vehicle model + migration + seed data (3 cars with images)</li>
-        <li><span class="check-icon check-done">&#10003;</span> User model + Devise auth (signup, login, sessions)</li>
-        <li><span class="check-icon check-done">&#10003;</span> OnboardingApplication model + state machine (5 steps)</li>
-        <li><span class="check-icon check-done">&#10003;</span> Vehicles index page (browse inventory)</li>
-        <li><span class="check-icon check-done">&#10003;</span> 5-step onboarding flow scaffold (navigation working)</li>
-        <li><span class="check-icon check-done">&#10003;</span> Persistent vehicle summary card throughout flow</li>
-        <li><span class="check-icon check-done">&#10003;</span> Progress indicator component</li>
-      </ul>
-    </div>
 
-    <!-- Phase 2 -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Phase 2: AI Chatbot</div>
-        <span class="card-badge badge-complete">8/8 Complete</span>
+      <div class="phase-card">
+        <div class="phase-header"><h3>Phase 2: AI Chatbot</h3><span class="phase-pct">100%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        <ul class="task-list">
+          <li><span class="chip done">Done</span> LLMService — Claude API wrapper</li>
+          <li><span class="chip done">Done</span> ApplicationContext — system prompt builder</li>
+          <li><span class="chip done">Done</span> SSE streaming (replaces ActionCable)</li>
+          <li><span class="chip done">Done</span> ChatMessage model per session</li>
+          <li><span class="chip done">Done</span> Chatbot widget JS controller</li>
+          <li><span class="chip done">Done</span> Chatbot widget partial</li>
+          <li><span class="chip done">Done</span> Jargon simplifier (APR, LTV, GAP, DTI)</li>
+          <li><span class="chip done">Done</span> "Why we ask this" micro-copy</li>
+        </ul>
+        <div class="phase-timing">
+          <span>Est: 4h (Day 1 PM)</span>
+          <span>Completed: 2026-03-20</span>
+          <span class="chip deviation" style="margin-left:auto">4 deviations</span>
+        </div>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill fill-green" style="width:100%"></div></div>
-      <ul class="checklist">
-        <li><span class="check-icon check-done">&#10003;</span> LLMService -- Claude API wrapper with system prompt construction</li>
-        <li><span class="check-icon check-done">&#10003;</span> ApplicationContext service -- builds chatbot context from app state</li>
-        <li><span class="check-icon check-done">&#10003;</span> SSE streaming via ActionController::Live (replaced ActionCable)</li>
-        <li><span class="check-icon check-done">&#10003;</span> ChatMessage model populated per session</li>
-        <li><span class="check-icon check-done">&#10003;</span> Chatbot widget JS controller (UI + streaming display)</li>
-        <li><span class="check-icon check-done">&#10003;</span> Chatbot widget as shared partial with chat bubble, input, message list</li>
-        <li><span class="check-icon check-done">&#10003;</span> Jargon simplifier -- APR, LTV, GAP, DTI explanations in system prompt</li>
-        <li><span class="check-icon check-done">&#10003;</span> "Why we ask this" micro-copy on sensitive form fields</li>
-      </ul>
-    </div>
 
-    <!-- Phase 3 -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Phase 3: OCR Document Scanning</div>
-        <span class="card-badge badge-complete">8/8 Complete</span>
+      <div class="phase-card">
+        <div class="phase-header"><h3>Phase 3: OCR Document Scanning</h3><span class="phase-pct">100%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        <ul class="task-list">
+          <li><span class="chip done">Done</span> OCRService — Textract + mock mode</li>
+          <li><span class="chip done">Done</span> DocumentValidator service</li>
+          <li><span class="chip done">Done</span> DocumentUpload model with extraction</li>
+          <li><span class="chip done">Done</span> Camera capture JS controller</li>
+          <li><span class="chip done">Done</span> Step 4 document upload UI</li>
+          <li><span class="chip done">Done</span> Field auto-population after OCR</li>
+          <li><span class="chip done">Done</span> Proactive document checklist</li>
+          <li><span class="chip done">Done</span> Specific error messages for failures</li>
+        </ul>
+        <div class="phase-timing">
+          <span>Est: 4h (Day 2 AM)</span>
+          <span>Completed: 2026-03-20</span>
+          <span class="chip deviation" style="margin-left:auto">3 deviations</span>
+        </div>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill fill-green" style="width:100%"></div></div>
-      <ul class="checklist">
-        <li><span class="check-icon check-done">&#10003;</span> OCRService -- Textract wrapper with field extraction and mapping</li>
-        <li><span class="check-icon check-done">&#10003;</span> DocumentValidator -- checks document type, legibility, required fields</li>
-        <li><span class="check-icon check-done">&#10003;</span> DocumentUpload model populated with extraction results</li>
-        <li><span class="check-icon check-done">&#10003;</span> OCR camera capture JS controller (MediaDevices API)</li>
-        <li><span class="check-icon check-done">&#10003;</span> Step 4 (Document Upload) view with camera UI</li>
-        <li><span class="check-icon check-done">&#10003;</span> Field auto-population after successful OCR extraction</li>
-        <li><span class="check-icon check-done">&#10003;</span> Proactive document checklist shown at start of Step 4</li>
-        <li><span class="check-icon check-done">&#10003;</span> Specific error messages for failed/wrong document uploads</li>
-      </ul>
-    </div>
 
-    <!-- Phase 4 -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Phase 4: Emotional Support Layer</div>
-        <span class="card-badge badge-complete">5/5 Complete</span>
+      <div class="phase-card">
+        <div class="phase-header"><h3>Phase 4: Emotional Support</h3><span class="phase-pct">100%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        <ul class="task-list">
+          <li><span class="chip done">Done</span> Loan visualizer (term + down payment sliders)</li>
+          <li><span class="chip done">Done</span> Confidence prompts at key steps</li>
+          <li><span class="chip done">Done</span> Drop-off re-engagement (3-min inactivity)</li>
+          <li><span class="chip done">Done</span> Session persistence (resume from step)</li>
+          <li><span class="chip done">Done</span> "You're almost there" milestone messages</li>
+        </ul>
+        <div class="phase-timing">
+          <span>Est: 3h (Day 2 PM)</span>
+          <span>Completed: 2026-03-20</span>
+        </div>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill fill-green" style="width:100%"></div></div>
-      <ul class="checklist">
-        <li><span class="check-icon check-done">&#10003;</span> Loan visualizer (slider: term, down payment -> monthly payment)</li>
-        <li><span class="check-icon check-done">&#10003;</span> Confidence prompt system at Steps 1, 2, and 4</li>
-        <li><span class="check-icon check-done">&#10003;</span> Drop-off re-engagement -- 3-minute inactivity chatbot prompt</li>
-        <li><span class="check-icon check-done">&#10003;</span> Session persistence -- resume from exact step on browser reopen</li>
-        <li><span class="check-icon check-done">&#10003;</span> "You're almost there" milestone messages in progress bar</li>
-      </ul>
-    </div>
 
-    <!-- Phase 5 -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">Phase 5: Polish + Deploy</div>
-        <span class="card-badge badge-partial">5/7 Complete</span>
+      <div class="phase-card">
+        <div class="phase-header"><h3>Phase 5: Polish + Deploy</h3><span class="phase-pct" style="color:var(--amber)">71%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:71%;background:var(--amber)"></div></div>
+        <ul class="task-list">
+          <li><span class="chip done">Done</span> Tailwind UI polish</li>
+          <li><span class="chip not-started">Pending</span> Mobile camera flow tested (iOS/Android)</li>
+          <li><span class="chip done">Done</span> Demo user seeded (demo@carvana.com)</li>
+          <li><span class="chip done">Done</span> End-to-end flow tested</li>
+          <li><span class="chip done">Done</span> Render.com deployment config</li>
+          <li><span class="chip not-started">Pending</span> Live demo URL working</li>
+          <li><span class="chip done">Done</span> README with setup instructions</li>
+        </ul>
+        <div class="phase-timing">
+          <span>Est: 8h (Day 3)</span>
+          <span>In progress: 2026-03-20</span>
+          <span class="chip deviation" style="margin-left:auto">2 deviations</span>
+        </div>
       </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill fill-yellow" style="width:71%"></div></div>
-      <ul class="checklist">
-        <li><span class="check-icon check-done">&#10003;</span> Tailwind UI polish -- consistent spacing, typography, mobile layout</li>
-        <li><span class="check-icon check-miss">&#10007;</span> Mobile camera flow tested on iOS Safari and Android Chrome</li>
-        <li><span class="check-icon check-done">&#10003;</span> Demo user seeded (demo@carvana.com / demo1234)</li>
-        <li><span class="check-icon check-done">&#10003;</span> End-to-end flow tested: signup -> browse -> 5 steps -> submitted</li>
-        <li><span class="check-icon check-done">&#10003;</span> Render.com deployment config (render.yaml + Procfile)</li>
-        <li><span class="check-icon check-miss">&#10007;</span> Live demo URL working (deployment pending)</li>
-        <li><span class="check-icon check-done">&#10003;</span> README with setup instructions and demo walkthrough</li>
-      </ul>
+
     </div>
   </div>
 
-  <!-- TAB: REQUIREMENTS -->
-  <div class="tab-panel" id="tab-requirements">
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-value">21</div>
-        <div class="stat-label">FR Pass</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">2</div>
-        <div class="stat-label">FR Partial</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">5</div>
-        <div class="stat-label">FR Deferred</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">4</div>
-        <div class="stat-label">NFR Pass</div>
-      </div>
-    </div>
+  <!-- REQUIREMENTS TAB -->
+  <div id="tab-requirements" class="tab-panel">
+    <div class="req-grid">
 
-    <!-- Must-have -->
-    <div class="req-group-title">Must-Have (17 of 17 addressed)</div>
-    <table class="req-table">
-      <thead><tr><th>ID</th><th>Requirement</th><th>Status</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td class="req-id">FR-01</td><td>User registration and login</td><td><span class="card-badge badge-pass">Pass</span></td><td>Devise auth with signup/login/sessions</td></tr>
-        <tr><td class="req-id">FR-02</td><td>Identity verification via ID scan</td><td><span class="card-badge badge-pass">Pass</span></td><td>OCR extraction from driver's license (mock + Textract)</td></tr>
-        <tr><td class="req-id">FR-04</td><td>Guided form fill via conversational UI</td><td><span class="card-badge badge-pass">Pass</span></td><td>Claude API chatbot with step-aware context, SSE streaming</td></tr>
-        <tr><td class="req-id">FR-05</td><td>Document explainer</td><td><span class="card-badge badge-pass">Pass</span></td><td>System prompt includes doc explanations</td></tr>
-        <tr><td class="req-id">FR-06</td><td>Live Q&A</td><td><span class="card-badge badge-pass">Pass</span></td><td>Free-form Q&A via Claude API with 20-message history</td></tr>
-        <tr><td class="req-id">FR-07</td><td>Jargon simplifier</td><td><span class="card-badge badge-pass">Pass</span></td><td>JARGON_DEFINITIONS in system prompt + accordion explainers</td></tr>
-        <tr><td class="req-id">FR-09</td><td>Camera capture for mobile upload</td><td><span class="card-badge badge-pass">Pass</span></td><td>capture="environment" for camera + file upload fallback</td></tr>
-        <tr><td class="req-id">FR-10</td><td>OCR extraction -- driver's license</td><td><span class="card-badge badge-pass">Pass</span></td><td>Maps name, DOB, address, license number</td></tr>
-        <tr><td class="req-id">FR-11</td><td>OCR extraction -- pay stubs</td><td><span class="card-badge badge-pass">Pass</span></td><td>Maps employer, gross pay, pay period, net pay</td></tr>
-        <tr><td class="req-id">FR-12</td><td>OCR extraction -- insurance</td><td><span class="card-badge badge-pass">Pass</span></td><td>Maps policy number, carrier, dates</td></tr>
-        <tr><td class="req-id">FR-13</td><td>Document validation</td><td><span class="card-badge badge-pass">Pass</span></td><td>MIME type, size (50KB-10MB), doc type validation</td></tr>
-        <tr><td class="req-id">FR-15</td><td>"Why we ask this" micro-copy</td><td><span class="card-badge badge-partial">Partial</span></td><td>Present on income + SSN fields; missing on employer name</td></tr>
-        <tr><td class="req-id">FR-16</td><td>Loan term visualizer</td><td><span class="card-badge badge-pass">Pass</span></td><td>Dual range sliders, live amortization calculation</td></tr>
-        <tr><td class="req-id">FR-18</td><td>Purchase confidence prompts</td><td><span class="card-badge badge-pass">Pass</span></td><td>Steps 1, 2, 4 with contextual reassurance messages</td></tr>
-        <tr><td class="req-id">FR-19</td><td>Mock vehicle inventory (3 cars)</td><td><span class="card-badge badge-pass">Pass</span></td><td>Honda Accord, Toyota Camry, Ford Mustang GT</td></tr>
-        <tr><td class="req-id">FR-20</td><td>Persistent vehicle summary card</td><td><span class="card-badge badge-pass">Pass</span></td><td>Rendered on all onboarding steps</td></tr>
-        <tr><td class="req-id">FR-21</td><td>5-step financing application</td><td><span class="card-badge badge-pass">Pass</span></td><td>Steps 1-5 with navigation and state machine</td></tr>
-        <tr><td class="req-id">FR-22</td><td>Soft-pull credit pre-qualification</td><td><span class="card-badge badge-partial">Partial</span></td><td>Collects data and labels as "soft pull" but no simulated pre-qual result</td></tr>
-      </tbody>
-    </table>
+      <div class="req-group">
+        <h3><span class="priority-dot" style="background:var(--red)"></span> Must-have</h3>
+        <div class="sub">18 / 20 pass &middot; 2 partial</div>
+        <div class="progress-track" style="margin-bottom:14px"><div class="progress-fill" style="width:95%"></div></div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-01: User registration and login</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-02: Identity verification via ID scan</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-04: Guided form fill via conversational UI</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-05: Document explainer</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-06: Live Q&A</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-07: Jargon simplifier</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-09: Camera capture for mobile upload</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-10: OCR — driver's license</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-11: OCR — pay stubs</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-12: OCR — insurance documents</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-13: Document validation</div>
+        <div class="req-item"><span class="req-dot partial"></span> FR-15: "Why we ask this" micro-copy (missing on employer)</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-16: Loan term visualizer</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-18: Purchase confidence prompts</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-19: Mock vehicle inventory (3 cars)</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-20: Persistent vehicle summary card</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-21: 5-step financing application</div>
+        <div class="req-item"><span class="req-dot partial"></span> FR-22: Soft-pull credit pre-qual (no result shown)</div>
+      </div>
 
-    <!-- Should-have -->
-    <div class="req-group-title">Should-Have (6 of 6 addressed)</div>
-    <table class="req-table">
-      <thead><tr><th>ID</th><th>Requirement</th><th>Status</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td class="req-id">FR-03</td><td>Session persistence -- resume from exact step</td><td><span class="card-badge badge-pass">Pass</span></td><td>current_step persisted; show action redirects</td></tr>
-        <tr><td class="req-id">FR-08</td><td>Drop-off re-engagement prompt</td><td><span class="card-badge badge-pass">Pass</span></td><td>3-min inactivity timer triggers chatbot message</td></tr>
-        <tr><td class="req-id">FR-14</td><td>Proactive document checklist</td><td><span class="card-badge badge-pass">Pass</span></td><td>Dynamic checklist with green checkmarks</td></tr>
-        <tr><td class="req-id">FR-17</td><td>Progress indicator with milestones</td><td><span class="card-badge badge-pass">Pass</span></td><td>5-step progress bar with SVG checkmarks + milestone text</td></tr>
-        <tr><td class="req-id">FR-23</td><td>Pre-fill for returning users</td><td><span class="card-badge badge-pass">Pass</span></td><td>application_data JSON persisted; forms populated</td></tr>
-        <tr><td class="req-id">FR-24</td><td>Application completeness dashboard</td><td><span class="card-badge badge-deferred">Deferred</span></td><td>Per MVP scope</td></tr>
-        <tr><td class="req-id">FR-25</td><td>Targeted document re-request</td><td><span class="card-badge badge-deferred">Deferred</span></td><td>Per MVP scope</td></tr>
-      </tbody>
-    </table>
+      <div class="req-group">
+        <h3><span class="priority-dot" style="background:var(--amber)"></span> Should-have</h3>
+        <div class="sub">5 / 7 pass &middot; 2 deferred</div>
+        <div class="progress-track" style="margin-bottom:14px"><div class="progress-fill" style="width:71%;background:var(--amber)"></div></div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-03: Session persistence</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-08: Drop-off re-engagement prompt</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-14: Proactive document checklist</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-17: Progress indicator with milestones</div>
+        <div class="req-item"><span class="req-dot pass"></span> FR-23: Pre-fill for returning users</div>
+        <div class="req-item"><span class="req-dot deferred"></span> FR-24: Application completeness dashboard (deferred)</div>
+        <div class="req-item"><span class="req-dot deferred"></span> FR-25: Targeted document re-request (deferred)</div>
+      </div>
 
-    <!-- Could-have -->
-    <div class="req-group-title">Could-Have (3 deferred)</div>
-    <table class="req-table">
-      <thead><tr><th>ID</th><th>Requirement</th><th>Status</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td class="req-id">FR-26</td><td>Delivery / advisor call booking</td><td><span class="card-badge badge-deferred">Deferred</span></td><td>Per MVP scope</td></tr>
-        <tr><td class="req-id">FR-27</td><td>Co-applicant flow</td><td><span class="card-badge badge-deferred">Deferred</span></td><td>Per MVP scope</td></tr>
-        <tr><td class="req-id">FR-28</td><td>Trade-in transparency flow</td><td><span class="card-badge badge-deferred">Deferred</span></td><td>Per MVP scope</td></tr>
-      </tbody>
-    </table>
+      <div class="req-group">
+        <h3><span class="priority-dot" style="background:var(--blue)"></span> Could-have</h3>
+        <div class="sub">0 / 3 &middot; All deferred per MVP scope</div>
+        <div class="progress-track" style="margin-bottom:14px"><div class="progress-fill" style="width:0%"></div></div>
+        <div class="req-item"><span class="req-dot deferred"></span> FR-26: Delivery / advisor call booking</div>
+        <div class="req-item"><span class="req-dot deferred"></span> FR-27: Co-applicant flow</div>
+        <div class="req-item"><span class="req-dot deferred"></span> FR-28: Trade-in transparency flow</div>
+      </div>
 
-    <!-- NFR -->
-    <div class="nfr-section">
-      <div class="req-group-title">Non-Functional Requirements</div>
-      <table class="req-table">
-        <thead><tr><th>ID</th><th>Requirement</th><th>Target</th><th>Status</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td class="req-id">NFR-01</td><td>OCR extraction time</td><td>&lt; 3 seconds</td><td><span class="card-badge badge-pass">Pass</span></td><td>Mock: instant. Textract: ~2s</td></tr>
-          <tr><td class="req-id">NFR-02</td><td>Chatbot response time</td><td>&lt; 2 seconds</td><td><span class="card-badge badge-partial">Needs Testing</span></td><td>Structurally sound (streaming SSE)</td></tr>
-          <tr><td class="req-id">NFR-03</td><td>PII encryption at rest</td><td>AES-256</td><td><span class="card-badge badge-missing">N/A (demo)</span></td><td>Plain JSON in SQLite; acceptable for demo</td></tr>
-          <tr><td class="req-id">NFR-04</td><td>SSN tokenization</td><td>Never store raw</td><td><span class="card-badge badge-pass">Partial</span></td><td>Only last 4 digits collected</td></tr>
-          <tr><td class="req-id">NFR-05</td><td>KYC identity verification</td><td>NIST IAL2</td><td><span class="card-badge badge-missing">N/A (demo)</span></td><td>Demo prototype scope</td></tr>
-          <tr><td class="req-id">NFR-06</td><td>Federal lending compliance</td><td>ECOA, FCRA, TILA</td><td><span class="card-badge badge-missing">N/A (demo)</span></td><td>Demo prototype scope</td></tr>
-          <tr><td class="req-id">NFR-07</td><td>California privacy (CCPA)</td><td>Consent flow</td><td><span class="card-badge badge-missing">N/A (demo)</span></td><td>Demo prototype scope</td></tr>
-          <tr><td class="req-id">NFR-08</td><td>Uptime</td><td>99.9%</td><td><span class="card-badge badge-missing">N/A (demo)</span></td><td>Demo prototype scope</td></tr>
-          <tr><td class="req-id">NFR-09</td><td>Session persistence</td><td>Resume from step</td><td><span class="card-badge badge-pass">Pass</span></td><td>current_step persisted in DB</td></tr>
-          <tr><td class="req-id">NFR-10</td><td>Document lifecycle</td><td>7-year retention</td><td><span class="card-badge badge-missing">N/A (demo)</span></td><td>Demo prototype scope</td></tr>
-          <tr><td class="req-id">NFR-11</td><td>Accessibility (WCAG 2.1 AA)</td><td>AA compliant</td><td><span class="card-badge badge-partial">Needs Testing</span></td><td>Semantic HTML, form labels present</td></tr>
-          <tr><td class="req-id">NFR-12</td><td>Mobile responsive + camera</td><td>Mobile-first</td><td><span class="card-badge badge-pass">Pass</span></td><td>Tailwind responsive classes, camera capture</td></tr>
-        </tbody>
-      </table>
+      <div class="req-group">
+        <h3><span class="priority-dot" style="background:var(--purple)"></span> Non-Functional</h3>
+        <div class="sub">4 met &middot; 3 needs testing &middot; 5 N/A for demo</div>
+        <div class="progress-track" style="margin-bottom:14px"><div class="progress-fill" style="width:33%;background:var(--purple)"></div></div>
+        <div class="req-item"><span class="req-dot pass"></span> NFR-01: OCR extraction &lt; 3s</div>
+        <div class="req-item"><span class="req-dot partial"></span> NFR-02: Chatbot response &lt; 2s (needs testing)</div>
+        <div class="req-item"><span class="req-dot fail"></span> NFR-03: PII encryption (not implemented)</div>
+        <div class="req-item"><span class="req-dot partial"></span> NFR-04: SSN tokenization (partial)</div>
+        <div class="req-item"><span class="req-dot pass"></span> NFR-09: Session persistence</div>
+        <div class="req-item"><span class="req-dot partial"></span> NFR-11: WCAG 2.1 AA (needs audit)</div>
+        <div class="req-item"><span class="req-dot pass"></span> NFR-12: Mobile responsive + camera</div>
+      </div>
+
     </div>
   </div>
 
-  <!-- TAB: ARTIFACTS -->
-  <div class="tab-panel" id="tab-artifacts">
-
-    <div class="req-group-title">Models</div>
+  <!-- ARTIFACTS TAB -->
+  <div id="tab-artifacts" class="tab-panel">
     <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon file">M</div>
-        <div><div class="artifact-name">User</div><div class="artifact-path">app/models/user.rb</div></div>
+      <div class="artifact-card">
+        <div class="a-dot exists"></div>
+        <div class="a-info">
+          <div class="a-name">PROJECT_PLAN.md</div>
+          <div class="a-status">Created 2026-03-19</div>
+        </div>
       </div>
-      <div class="artifact-item">
-        <div class="artifact-icon file">M</div>
-        <div><div class="artifact-name">Vehicle</div><div class="artifact-path">app/models/vehicle.rb</div></div>
+      <div class="artifact-card">
+        <div class="a-dot exists"></div>
+        <div class="a-info">
+          <div class="a-name">IMPLEMENTATION_LOG.md</div>
+          <div class="a-status">Updated 2026-03-20</div>
+        </div>
       </div>
-      <div class="artifact-item">
-        <div class="artifact-icon file">M</div>
-        <div><div class="artifact-name">OnboardingApplication</div><div class="artifact-path">app/models/onboarding_application.rb</div></div>
+      <div class="artifact-card">
+        <div class="a-dot exists"></div>
+        <div class="a-info">
+          <div class="a-name">BUILD_MANIFEST.md</div>
+          <div class="a-status">Updated 2026-03-20</div>
+        </div>
       </div>
-      <div class="artifact-item">
-        <div class="artifact-icon file">M</div>
-        <div><div class="artifact-name">DocumentUpload</div><div class="artifact-path">app/models/document_upload.rb</div></div>
+      <div class="artifact-card">
+        <div class="a-dot exists"></div>
+        <div class="a-info">
+          <div class="a-name">REVIEW_REPORT.md</div>
+          <div class="a-status">Updated 2026-03-20</div>
+        </div>
       </div>
-      <div class="artifact-item">
-        <div class="artifact-icon file">M</div>
-        <div><div class="artifact-name">ChatMessage</div><div class="artifact-path">app/models/chat_message.rb</div></div>
+      <div class="artifact-card">
+        <div class="a-dot exists"></div>
+        <div class="a-info">
+          <div class="a-name">TEST_REPORT.md</div>
+          <div class="a-status">Updated 2026-03-20</div>
+        </div>
+      </div>
+      <div class="artifact-card">
+        <div class="a-dot missing"></div>
+        <div class="a-info">
+          <div class="a-name">RELEASE.md</div>
+          <div class="a-status">Not created</div>
+        </div>
       </div>
     </div>
-
-    <div class="req-group-title">Controllers</div>
-    <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon view">C</div>
-        <div><div class="artifact-name">VehiclesController</div><div class="artifact-path">app/controllers/vehicles_controller.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">C</div>
-        <div><div class="artifact-name">OnboardingApplicationsController</div><div class="artifact-path">app/controllers/onboarding_applications_controller.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">C</div>
-        <div><div class="artifact-name">ChatMessagesController</div><div class="artifact-path">app/controllers/chat_messages_controller.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">C</div>
-        <div><div class="artifact-name">DocumentUploadsController</div><div class="artifact-path">app/controllers/document_uploads_controller.rb</div></div>
-      </div>
-    </div>
-
-    <div class="req-group-title">Services</div>
-    <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon service">S</div>
-        <div><div class="artifact-name">LlmService</div><div class="artifact-path">app/services/llm_service.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon service">S</div>
-        <div><div class="artifact-name">OcrService</div><div class="artifact-path">app/services/ocr_service.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon service">S</div>
-        <div><div class="artifact-name">ApplicationContext</div><div class="artifact-path">app/services/application_context.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon service">S</div>
-        <div><div class="artifact-name">DocumentValidator</div><div class="artifact-path">app/services/document_validator.rb</div></div>
-      </div>
-    </div>
-
-    <div class="req-group-title">Views (Onboarding Steps)</div>
-    <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon view">V</div>
-        <div><div class="artifact-name">Step 1: Pre-Qualification</div><div class="artifact-path">app/views/onboarding_applications/step1.html.erb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">V</div>
-        <div><div class="artifact-name">Step 2: Financing</div><div class="artifact-path">app/views/onboarding_applications/step2.html.erb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">V</div>
-        <div><div class="artifact-name">Step 3: Documents</div><div class="artifact-path">app/views/onboarding_applications/step3.html.erb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">V</div>
-        <div><div class="artifact-name">Step 4: Review</div><div class="artifact-path">app/views/onboarding_applications/step4.html.erb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">V</div>
-        <div><div class="artifact-name">Step 5: Complete</div><div class="artifact-path">app/views/onboarding_applications/step5.html.erb</div></div>
-      </div>
-    </div>
-
-    <div class="req-group-title">Shared Partials</div>
-    <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon view">P</div>
-        <div><div class="artifact-name">Chatbot Widget</div><div class="artifact-path">app/views/onboarding_applications/_chatbot_widget.html.erb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">P</div>
-        <div><div class="artifact-name">Vehicle Card</div><div class="artifact-path">app/views/onboarding_applications/_vehicle_card.html.erb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon view">P</div>
-        <div><div class="artifact-name">Progress Indicator</div><div class="artifact-path">app/views/onboarding_applications/_progress.html.erb</div></div>
-      </div>
-    </div>
-
-    <div class="req-group-title">Configuration &amp; Deployment</div>
-    <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Render Config</div><div class="artifact-path">render.yaml</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Procfile</div><div class="artifact-path">Procfile</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Seeds</div><div class="artifact-path">db/seeds.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Routes</div><div class="artifact-path">config/routes.rb</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Gemfile</div><div class="artifact-path">Gemfile</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">README</div><div class="artifact-path">README.md</div></div>
-      </div>
-    </div>
-
-    <div class="req-group-title">Project Documents</div>
-    <div class="artifact-grid">
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Project Plan</div><div class="artifact-path">PROJECT_PLAN.md</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Implementation Log</div><div class="artifact-path">IMPLEMENTATION_LOG.md</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Build Manifest</div><div class="artifact-path">BUILD_MANIFEST.md</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Review Report</div><div class="artifact-path">REVIEW_REPORT.md</div></div>
-      </div>
-      <div class="artifact-item">
-        <div class="artifact-icon config">D</div>
-        <div><div class="artifact-name">Test Report</div><div class="artifact-path">TEST_REPORT.md</div></div>
-      </div>
-    </div>
-
-    <div class="req-group-title">Environment Variables</div>
-    <table class="req-table">
-      <thead><tr><th>Variable</th><th>Service</th><th>Required</th></tr></thead>
-      <tbody>
-        <tr><td class="artifact-path">ANTHROPIC_API_KEY</td><td>Claude Chatbot</td><td>Yes</td></tr>
-        <tr><td class="artifact-path">MOCK_OCR</td><td>OCR mock mode toggle</td><td>No (defaults to true)</td></tr>
-        <tr><td class="artifact-path">AWS_ACCESS_KEY_ID</td><td>AWS Textract</td><td>Only if MOCK_OCR=false</td></tr>
-        <tr><td class="artifact-path">AWS_SECRET_ACCESS_KEY</td><td>AWS Textract</td><td>Only if MOCK_OCR=false</td></tr>
-        <tr><td class="artifact-path">AWS_REGION</td><td>AWS Textract</td><td>No (defaults to us-east-1)</td></tr>
-        <tr><td class="artifact-path">RAILS_MASTER_KEY</td><td>Rails credentials</td><td>Yes (production)</td></tr>
-      </tbody>
-    </table>
   </div>
 
-  <!-- TAB: ACTIVITY -->
-  <div class="tab-panel" id="tab-activity">
+  <!-- ACTIVITY TAB -->
+  <div id="tab-activity" class="tab-panel">
     <div class="activity-feed">
-
-      <div class="activity-phase">
-        <div class="activity-dot"></div>
-        <div class="activity-phase-title">Phase 1: Foundation</div>
-        <div class="activity-phase-date">2026-03-20 -- 8/8 deliverables complete</div>
-        <ul class="activity-details">
-          <li>Used Rails 8.1 instead of 7.2 (newer version, same APIs)</li>
-          <li>Used SQLite3 instead of PostgreSQL for development (easier local setup)</li>
-          <li>Ford Explorer changed to Ford Mustang GT in seed data</li>
-          <li>No package.json or JS build pipeline -- using inline scripts and propshaft</li>
-          <li>ViewComponent gem installed but not used as standalone components; step views use partials</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot pipeline"></div>
+        <div class="activity-content">
+          <div class="activity-title">Test/QA completed</div>
+          <div class="activity-desc">8/9 smoke tests pass. Chatbot degraded (API key issue, fallback works). Full happy path verified. 2026-03-20</div>
+        </div>
       </div>
-
-      <div class="activity-phase">
-        <div class="activity-dot"></div>
-        <div class="activity-phase-title">Phase 2: AI Chatbot</div>
-        <div class="activity-phase-date">2026-03-20 -- 8/8 deliverables complete</div>
-        <ul class="activity-details">
-          <li>Used SSE streaming via ActionController::Live instead of ActionCable WebSockets (simpler, no Redis)</li>
-          <li>Used vanilla JavaScript instead of TypeScript Stimulus controllers</li>
-          <li>Chatbot widget as shared partial instead of ViewComponent class</li>
-          <li>Added chatbot to Step 4 (Review) in addition to Steps 1-3 (enhancement)</li>
-          <li>Added quick-suggestion buttons per step for guided interaction</li>
-          <li>LLMService supports both sync (JSON) and streaming (SSE) modes</li>
-          <li>Chat history (last 20 messages) included in Claude API context</li>
-          <li>Graceful fallback message if Claude API is unavailable</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot issue"></div>
+        <div class="activity-content">
+          <div class="activity-title">Chatbot API degraded</div>
+          <div class="activity-desc">Claude API not responding during testing. Graceful fallback message works. API key may need refresh. 2026-03-20</div>
+        </div>
       </div>
-
-      <div class="activity-phase">
-        <div class="activity-dot"></div>
-        <div class="activity-phase-title">Phase 3: OCR Document Scanning</div>
-        <div class="activity-phase-date">2026-03-20 -- 8/8 deliverables complete</div>
-        <ul class="activity-details">
-          <li>OcrService supports mock mode (MOCK_OCR=true) with realistic extraction data</li>
-          <li>Real AWS Textract integration available when credentials provided</li>
-          <li>Used vanilla JavaScript instead of TypeScript for camera capture</li>
-          <li>Added separate "Upload" button alongside "Scan" for desktop users</li>
-          <li>Mock OCR returns realistic data: Jane Smith license, Acme Corp pay stub, State Farm insurance</li>
-          <li>DocumentValidator checks MIME type, file size (50KB-10MB), and document type</li>
-          <li>Auto-populates application_data with extracted fields after successful OCR</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot pipeline"></div>
+        <div class="activity-content">
+          <div class="activity-title">Code review completed</div>
+          <div class="activity-desc">21/28 requirements pass, 2 partial, 5 deferred. 4 code quality issues found (1 critical: no test suite). 2026-03-20</div>
+        </div>
       </div>
-
-      <div class="activity-phase">
-        <div class="activity-dot"></div>
-        <div class="activity-phase-title">Phase 4: Emotional Support Layer</div>
-        <div class="activity-phase-date">2026-03-20 -- 5/5 deliverables complete</div>
-        <ul class="activity-details">
-          <li>Loan visualizer was already built in Phase 1 step2 view -- no changes needed</li>
-          <li>Session persistence already functional via OnboardingApplication#current_step</li>
-          <li>Added confidence prompts: step1 (soft credit check), step2 (adjust anytime), step4 (return policy)</li>
-          <li>Added milestone messages in progress bar for each step</li>
-          <li>Added 3-minute inactivity re-engagement in chatbot widget</li>
-          <li>Inactivity timer resets on mouse/keyboard/scroll/touch events</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot completion"></div>
+        <div class="activity-content">
+          <div class="activity-title">Phase 5: Polish + Deploy — 71% complete</div>
+          <div class="activity-desc">UI polished, demo user seeded, Render config created. Mobile testing and live URL pending. 2026-03-20</div>
+        </div>
       </div>
-
-      <div class="activity-phase">
-        <div class="activity-dot"></div>
-        <div class="activity-phase-title">Phase 5: Polish + Deploy</div>
-        <div class="activity-phase-date">2026-03-20 -- 5/7 deliverables complete (2 pending manual steps)</div>
-        <ul class="activity-details">
-          <li>Added Active Storage migration (missing from Phase 1)</li>
-          <li>Render.com deployment uses render.yaml Infrastructure as Code</li>
-          <li>Procfile with release command for auto-migration and seeding on deploy</li>
-          <li>Demo user: demo@carvana.com / demo1234</li>
-          <li>Rails server boots clean on port 3001</li>
-          <li>README includes full setup instructions, demo walkthrough, deployment guide</li>
-          <li>Mobile camera testing and live URL deployment are manual steps after push</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot deviation"></div>
+        <div class="activity-content">
+          <div class="activity-title">Deviation: Active Storage migration missing</div>
+          <div class="activity-desc">Phase 5 — Active Storage migration was missing from Phase 1, added during polish. 2026-03-20</div>
+        </div>
       </div>
-
-      <div class="activity-phase">
-        <div class="activity-dot" style="border-color: #60a5fa;"></div>
-        <div class="activity-phase-title">Code Review</div>
-        <div class="activity-phase-date">2026-03-20 -- 4 issues found (1 critical resolved, 2 warnings, 1 suggestion)</div>
-        <ul class="activity-details">
-          <li>ANTHROPIC_API_KEY in .env -- .env is in .gitignore, no exposure risk (resolved)</li>
-          <li>No test suite -- 0% coverage against 80% target (critical gap)</li>
-          <li>No CSRF protection on JSON endpoints (warning)</li>
-          <li>application_data not validated against schema (warning)</li>
-          <li>Hardcoded APR 6.9% in loan visualizer (suggestion)</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot completion"></div>
+        <div class="activity-content">
+          <div class="activity-title">Phase 4: Emotional Support — complete</div>
+          <div class="activity-desc">Loan visualizer, confidence prompts, inactivity detection, session persistence, milestone messages. 2026-03-20</div>
+        </div>
       </div>
-
-      <div class="activity-phase">
-        <div class="activity-dot" style="border-color: #60a5fa;"></div>
-        <div class="activity-phase-title">Smoke Testing</div>
-        <div class="activity-phase-date">2026-03-20 -- 8/9 pass, 1 degraded</div>
-        <ul class="activity-details">
-          <li>Rails boots: Pass</li>
-          <li>Database seeded: Pass (1 user, 3 vehicles)</li>
-          <li>Homepage renders: Pass (200, vehicle cards)</li>
-          <li>Auth pages render: Pass</li>
-          <li>Login flow: Pass (POST -> 302 redirect, session established)</li>
-          <li>Start purchase: Pass (creates OnboardingApplication, redirects to step 1)</li>
-          <li>5-step onboarding flow: Pass (all steps load, data persists)</li>
-          <li>Chatbot API: Degraded (graceful fallback works, API key may need refresh)</li>
-          <li>Document upload (mock OCR): Pass (all 5 license fields at 100% confidence)</li>
-          <li>Session persistence: Pass (current_step persisted, redirects correctly)</li>
-        </ul>
+      <div class="activity-item">
+        <div class="activity-dot completion"></div>
+        <div class="activity-content">
+          <div class="activity-title">Phase 3: OCR Document Scanning — complete</div>
+          <div class="activity-desc">OcrService with mock + Textract, DocumentValidator, camera capture, field auto-population, checklist. 2026-03-20</div>
+        </div>
       </div>
-
+      <div class="activity-item">
+        <div class="activity-dot deviation"></div>
+        <div class="activity-content">
+          <div class="activity-title">Deviation: Mock OCR mode added</div>
+          <div class="activity-desc">Phase 3 — MOCK_OCR=true with realistic extraction data for demo. Real Textract available when AWS creds provided. 2026-03-20</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot completion"></div>
+        <div class="activity-content">
+          <div class="activity-title">Phase 2: AI Chatbot — complete</div>
+          <div class="activity-desc">LLMService, ApplicationContext, SSE streaming, chatbot widget, jargon simplifier, micro-copy. 2026-03-20</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot deviation"></div>
+        <div class="activity-content">
+          <div class="activity-title">Deviation: SSE replaces ActionCable</div>
+          <div class="activity-desc">Phase 2 — Used ActionController::Live SSE streaming instead of ActionCable WebSockets. Simpler, no Redis dependency. 2026-03-20</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot completion"></div>
+        <div class="activity-content">
+          <div class="activity-title">Phase 1: Foundation — complete</div>
+          <div class="activity-desc">Rails 8.1 app, Devise auth, Vehicle model, 5-step onboarding scaffold, progress indicator. 2026-03-20</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-dot pipeline"></div>
+        <div class="activity-content">
+          <div class="activity-title">Project plan created</div>
+          <div class="activity-desc">28 functional requirements, 12 non-functional. 5 phases across 3-day sprint. 2026-03-19</div>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
 
+<div style="height:60px"></div>
+
 <script>
-// Tab switching
-function switchTab(tabName) {
-  document.querySelectorAll('.tab-panel').forEach(function(panel) {
-    panel.classList.remove('active');
-  });
-  document.querySelectorAll('.tab-btn').forEach(function(btn) {
-    btn.classList.remove('active');
-  });
-  document.getElementById('tab-' + tabName).classList.add('active');
-  // Find the button that matches
-  var buttons = document.querySelectorAll('.tab-btn');
-  var tabMap = { phases: 0, requirements: 1, artifacts: 2, activity: 3 };
-  if (tabMap[tabName] !== undefined) {
-    buttons[tabMap[tabName]].classList.add('active');
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+const LOCAL_URL = 'http://localhost:3001';
+const PROD_URL = 'none';
+
+async function checkStatus(url, elementId) {
+  const dot = document.getElementById(elementId + '-dot');
+  const label = document.getElementById(elementId + '-label');
+  const link = document.getElementById(elementId + '-link');
+  try {
+    await fetch(url, { mode: 'no-cors', cache: 'no-cache' });
+    dot.className = 'status-dot up';
+    label.textContent = 'Online';
+    if (link) { link.href = url; link.textContent = url; link.style.pointerEvents = 'auto'; }
+    return true;
+  } catch {
+    dot.className = 'status-dot down';
+    label.textContent = 'Offline';
+    if (link) { link.textContent = url; link.style.pointerEvents = 'none'; }
+    return false;
   }
 }
 
-// Copy to clipboard
-function copyStartCmd() {
-  var cmd = document.getElementById('start-cmd').textContent;
-  var btn = document.getElementById('copy-btn');
-  navigator.clipboard.writeText(cmd).then(function() {
-    btn.textContent = 'Copied!';
-    btn.classList.add('copied');
-    setTimeout(function() {
-      btn.textContent = 'Copy';
-      btn.classList.remove('copied');
-    }, 2000);
-  }).catch(function() {
-    // Fallback for older browsers
-    var textarea = document.createElement('textarea');
-    textarea.value = cmd;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    btn.textContent = 'Copied!';
-    btn.classList.add('copied');
-    setTimeout(function() {
-      btn.textContent = 'Copy';
-      btn.classList.remove('copied');
-    }, 2000);
-  });
+async function updateStatus() {
+  const localUp = await checkStatus(LOCAL_URL, 'local');
+  const btn = document.getElementById('launch-btn');
+  if (localUp) {
+    btn.textContent = '\u25CF Running';
+    btn.classList.add('running');
+    btn.onclick = null;
+  } else {
+    btn.textContent = 'Copy Start Command';
+    btn.classList.remove('running');
+    btn.onclick = copyStartCommand;
+  }
+  if (PROD_URL !== 'none') {
+    checkStatus(PROD_URL, 'prod');
+  } else {
+    document.getElementById('prod-dot').className = 'status-dot';
+    document.getElementById('prod-label').textContent = 'Not deployed';
+    document.getElementById('prod-link').textContent = '';
+  }
 }
 
-// Live status checking
-function checkStatus(url, dotId, labelId, name) {
-  var dot = document.getElementById(dotId);
-  var label = document.getElementById(labelId);
-
-  dot.className = 'status-dot checking';
-  label.textContent = name + ': checking...';
-
-  var controller = new AbortController();
-  var timeoutId = setTimeout(function() { controller.abort(); }, 5000);
-
-  fetch(url, { method: 'GET', mode: 'no-cors', signal: controller.signal })
-    .then(function(response) {
-      clearTimeout(timeoutId);
-      dot.className = 'status-dot online';
-      label.textContent = name + ': online';
-    })
-    .catch(function(err) {
-      clearTimeout(timeoutId);
-      // no-cors mode: opaque response is still a "success" for reachability
-      // If we get here it truly failed
-      dot.className = 'status-dot offline';
-      label.textContent = name + ': offline';
-    });
+function copyStartCommand() {
+  navigator.clipboard.writeText('bin/dev');
+  const btn = document.getElementById('launch-btn');
+  btn.textContent = '\u2713 Copied';
+  setTimeout(() => { btn.textContent = 'Copy Start Command'; }, 2000);
 }
 
-// For no-cors, the fetch resolves even for opaque responses (server reachable)
-// but rejects on network errors (server unreachable)
-function checkLocalStatus() {
-  var dot = document.getElementById('local-dot');
-  var label = document.getElementById('local-label');
-
-  dot.className = 'status-dot checking';
-  label.textContent = 'Local: checking...';
-
-  var controller = new AbortController();
-  var timeoutId = setTimeout(function() { controller.abort(); }, 4000);
-
-  fetch('http://localhost:3001/up', { method: 'GET', signal: controller.signal })
-    .then(function(response) {
-      clearTimeout(timeoutId);
-      if (response.ok || response.status === 200) {
-        dot.className = 'status-dot online';
-        label.textContent = 'Local: online';
-      } else {
-        dot.className = 'status-dot online';
-        label.textContent = 'Local: online (' + response.status + ')';
-      }
-    })
-    .catch(function(err) {
-      clearTimeout(timeoutId);
-      dot.className = 'status-dot offline';
-      label.textContent = 'Local: offline';
-    });
-}
-
-function checkProdStatus() {
-  var dot = document.getElementById('prod-dot');
-  var label = document.getElementById('prod-label');
-
-  dot.className = 'status-dot offline';
-  label.textContent = 'Prod: not deployed';
-}
-
-// Initial check
-checkLocalStatus();
-checkProdStatus();
-
-// Recheck every 30 seconds
-setInterval(checkLocalStatus, 30000);
-setInterval(checkProdStatus, 60000);
+updateStatus();
+setInterval(updateStatus, 5000);
 </script>
-
 </body>
 </html>
